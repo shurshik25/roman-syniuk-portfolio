@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import FormField from '../components/FormField'
 
@@ -10,15 +10,6 @@ const ContactSection = ({
   addToHistory,
 }) => {
   const [activeSubTab, setActiveSubTab] = useState('basic')
-  const [localSocialData, setLocalSocialData] = useState(null)
-
-  // Ініціалізуємо локальний стан соціальних мереж
-  useEffect(() => {
-    if (data?.social && !localSocialData) {
-      console.log('ContactSection - ініціалізація localSocialData:', data.social)
-      setLocalSocialData({ ...data.social })
-    }
-  }, [data?.social, localSocialData])
 
   if (!data) return null
 
@@ -33,10 +24,10 @@ const ContactSection = ({
     addToHistory('edit', `Змінено "${field}" в контактах`)
   }
 
-  const handleSocialChange = (platform, field, value) => {
+  const handleSocialChange = useCallback((platform, field, value) => {
     updateNestedContent('social', `${platform}.${field}`, value)
     addToHistory('edit', `Оновлено ${platform} в соціальних мережах`)
-  }
+  }, [updateNestedContent, addToHistory])
 
   const handleServiceToggle = (index, service) => {
     const updatedService = { ...service, available: !service.available }
@@ -156,8 +147,7 @@ const ContactSection = ({
     return (
       <div className="space-y-6">
         {socialPlatforms.map(platform => {
-          // Використовуємо локальний стан для тестування
-          const socialData = localSocialData?.[platform.key] || data?.social?.[platform.key] || {}
+          const socialData = data?.social?.[platform.key] || {}
 
           return (
             <motion.div
