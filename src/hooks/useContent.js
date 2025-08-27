@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react'
 
-// API base URL - для тестування використовуємо localhost
-const API_BASE = 'http://localhost:3001'
-
 // Початкові дані як fallback
 const fallbackData = {
   hero: {
@@ -11,18 +8,18 @@ const fallbackData = {
     description:
       'Професійний актор з Хмельницького, спеціалізується на театральних постановках та кіноролях.',
     profileImage: '',
-    stats: [
-      { label: 'Ролей', value: '50+' },
-      { label: 'Досвіду', value: '10+' },
-      { label: 'Доступність', value: '100%' },
-    ],
+    stats: {
+      roles: '50+',
+      experience: '10+',
+      availability: '100%',
+    },
   },
   about: {
     biography: 'Роман Синюк - талановитий актор та автор цифрового контенту з Хмельницького.',
-    education: ['Театральний університет', 'Курси акторської майстерності'],
-    experience: ['Театр імені Шевченка', 'Кіностудія Довженка'],
-    skills: ['Акторська майстерність', 'Сценічна мова', 'Пластика', 'Вокал'],
-    achievements: ['Лауреат театральних фестивалів', 'Нагороди за найкращі ролі'],
+    education: [],
+    experience: [],
+    skills: [],
+    achievements: [],
   },
   portfolio: {
     categories: [
@@ -31,22 +28,7 @@ const fallbackData = {
       { id: 'cinema', label: 'Кіно' },
       { id: 'photo', label: 'Фотосесії' },
     ],
-    works: [
-      {
-        id: 1,
-        title: 'Гамлет',
-        description: 'Головна роль у виставі "Гамлет"',
-        image: '/roman-syniuk-portfolio/images/theater/492004700_9329654113830678_7770632857348615682_n.jpg',
-        category: 'theater'
-      },
-      {
-        id: 2,
-        title: 'Король Лір',
-        description: 'Роль Едгара у виставі "Король Лір"',
-        image: '/roman-syniuk-portfolio/images/theater/492057926_9329654067164016_4594880287050514130_n.jpg',
-        category: 'theater'
-      }
-    ],
+    works: [],
   },
   videoRepertoire: {
     categories: [
@@ -54,25 +36,7 @@ const fallbackData = {
       { id: 'cinema', label: 'Кіно', icon: '🎬' },
       { id: 'tv', label: 'Телебачення', icon: '📺' },
     ],
-    videos: [
-      {
-        id: 1,
-        title: 'Приклад театральної ролі',
-        author: 'Автор',
-        theater: 'Театр',
-        year: '2023',
-        director: 'Режисер',
-        role: 'Роль',
-        category: 'theater',
-        description: 'Опис ролі',
-        videoUrl: '',
-        youtubeUrl: '',
-        videoType: 'local',
-        thumbnail: '',
-        duration: '3:00',
-        tags: ['театр', 'роль'],
-      },
-    ],
+    videos: [],
   },
   contact: {
     location: 'Хмельницький, Україна',
@@ -95,7 +59,7 @@ const fallbackData = {
         followers: 'TikTok профіль',
       },
     },
-    projectAvailability: ['Театральні постановки', 'Кінофільми', 'Телесеріали'],
+    projectAvailability: [],
     note: '',
   },
 }
@@ -105,26 +69,10 @@ export const useContent = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
 
-
-
   // Функція для завантаження даних
   const loadContent = async () => {
     try {
-      // Спочатку пробуємо завантажити з API
-      try {
-        const response = await fetch(`${API_BASE}/api/content`)
-        if (response.ok) {
-          const contentData = await response.json()
-          console.log('useContent hook - завантажено з API:', contentData)
-          setContent(contentData)
-          setIsLoading(false)
-          return
-        }
-      } catch (error) {
-        console.log('useContent hook - не вдалося завантажити з API, пробую localStorage:', error)
-      }
-
-      // Якщо API не працює, пробуємо localStorage
+      // Спочатку пробуємо завантажити з localStorage
       const saved = localStorage.getItem('portfolio-content')
       if (saved) {
         const parsedContent = JSON.parse(saved)
@@ -165,213 +113,103 @@ export const useContent = () => {
   }
 
   // Функція для оновлення контенту
-  const updateContent = async (section, field, value) => {
-    try {
-      // Оновлюємо локально
-      setContent(prev => ({
-        ...prev,
-        [section]: {
-          ...prev[section],
-          [field]: value,
-        },
-      }))
-
-      // Зберігаємо в API
-      try {
-        const response = await fetch(`${API_BASE}/api/content/${section}/${field}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ value })
-        })
-        
-        if (response.ok) {
-          console.log('API: контент оновлено успішно')
-        } else {
-          console.warn('API: помилка оновлення контенту')
-        }
-      } catch (error) {
-        console.warn('API недоступний, зберігаю в localStorage:', error)
-        // Fallback до localStorage
-        localStorage.setItem('portfolio-content', JSON.stringify(content))
-      }
-    } catch (error) {
-      console.error('Помилка оновлення контенту:', error)
-    }
+  const updateContent = (field, value) => {
+    setContent(prev => ({
+      ...prev,
+      hero: {
+        ...prev.hero,
+        [field]: value,
+      },
+    }))
   }
 
   // Функція для оновлення вкладених полів
-  const updateNestedContent = async (section, field, subField, value) => {
-    try {
-      // Оновлюємо локально
-      setContent(prev => ({
-        ...prev,
-        [section]: {
-          ...prev[section],
-          [field]: {
-            ...prev[section][field],
-            [subField]: value,
-          },
+  const updateNestedContent = (field, subField, value) => {
+    setContent(prev => ({
+      ...prev,
+      contact: {
+        ...prev.contact,
+        [field]: {
+          ...prev.contact[field],
+          [subField]: value,
         },
-      }))
-
-      // Зберігаємо в API
-      try {
-        const response = await fetch(`${API_BASE}/api/content/${section}/${field}/${subField}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ value })
-        })
-        
-        if (response.ok) {
-          console.log('API: вкладений контент оновлено успішно')
-        } else {
-          console.warn('API: помилка оновлення вкладеного контенту')
-        }
-      } catch (error) {
-        console.warn('API недоступний, зберігаю в localStorage:', error)
-        localStorage.setItem('portfolio-content', JSON.stringify(content))
-      }
-    } catch (error) {
-      console.error('Помилка оновлення вкладеного контенту:', error)
-    }
+      },
+    }))
   }
 
   // Функція для оновлення масивів
-  const updateArrayContent = async (section, field, index, value) => {
-    try {
-      // Оновлюємо локально
-      setContent(prev => {
-        if (!prev[section] || !prev[section][field] || !Array.isArray(prev[section][field])) {
-          console.warn(`updateArrayContent: ${field} не є масивом або не існує`)
-          return prev
-        }
-
-        return {
-          ...prev,
-          [section]: {
-            ...prev[section],
-            [field]: prev[section][field].map((item, i) =>
-              i === index ? { ...item, ...value } : item
-            ),
-          },
-        }
-      })
-
-      // Зберігаємо в API
-      try {
-        const response = await fetch(`${API_BASE}/api/content/${section}/${field}/${index}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ value })
-        })
-        
-        if (response.ok) {
-          console.log('API: елемент масиву оновлено успішно')
-        } else {
-          console.warn('API: помилка оновлення елемента масиву')
-        }
-      } catch (error) {
-        console.warn('API недоступний, зберігаю в localStorage:', error)
-        localStorage.setItem('portfolio-content', JSON.stringify(content))
+  const updateArrayContent = (field, index, value) => {
+    setContent(prev => {
+      // Перевіряємо, чи існує секція та поле
+      if (!prev.portfolio || !prev.portfolio[field] || !Array.isArray(prev.portfolio[field])) {
+        console.warn(`updateArrayContent: ${field} не є масивом або не існує`)
+        return prev
       }
-    } catch (error) {
-      console.error('Помилка оновлення елемента масиву:', error)
-    }
+
+      return {
+        ...prev,
+        portfolio: {
+          ...prev.portfolio,
+          [field]: prev.portfolio[field].map((item, i) =>
+            i === index ? { ...item, ...value } : item
+          ),
+        },
+      }
+    })
   }
 
   // Функція для додавання нового елемента в масив
-  const addArrayItem = async (section, field, newItem) => {
-    try {
-      // Оновлюємо локально
-      setContent(prev => {
-        if (!prev[section]) {
-          console.warn(`addArrayItem: секція ${section} не існує`)
-          return prev
-        }
+  const addArrayItem = (field, newItem) => {
+    setContent(prev => {
+      // Перевіряємо, чи існує секція та поле
+      if (!prev.portfolio) {
+        console.warn(`addArrayItem: секція portfolio не існує`)
+        return prev
+      }
 
-        if (!prev[section][field]) {
-          return {
-            ...prev,
-            [section]: {
-              ...prev[section],
-              [field]: [newItem],
-            },
-          }
-        }
-
-        if (!Array.isArray(prev[section][field])) {
-          console.warn(`addArrayItem: ${field} не є масивом`)
-          return prev
-        }
-
+      if (!prev.portfolio[field]) {
+        // Якщо поле не існує, створюємо його як масив
         return {
           ...prev,
-          [section]: {
-            ...prev[section],
-            [field]: [...prev[section][field], newItem],
+          portfolio: {
+            ...prev.portfolio,
+            [field]: [newItem],
           },
         }
-      })
-
-      // Зберігаємо в API
-      try {
-        const response = await fetch(`${API_BASE}/api/content/${section}/${field}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ item: newItem })
-        })
-        
-        if (response.ok) {
-          console.log('API: елемент додано успішно')
-        } else {
-          console.warn('API: помилка додавання елемента')
-        }
-      } catch (error) {
-        console.warn('API недоступний, зберігаю в localStorage:', error)
-        localStorage.setItem('portfolio-content', JSON.stringify(content))
       }
-    } catch (error) {
-      console.error('Помилка додавання елемента:', error)
-    }
+
+      if (!Array.isArray(prev.portfolio[field])) {
+        console.warn(`addArrayItem: ${field} не є масивом`)
+        return prev
+      }
+
+      return {
+        ...prev,
+        portfolio: {
+          ...prev.portfolio,
+          [field]: [...prev.portfolio[field], newItem],
+        },
+      }
+    })
   }
 
   // Функція для видалення елемента з масиву
-  const removeArrayItem = async (section, field, index) => {
-    try {
-      // Оновлюємо локально
-      setContent(prev => {
-        if (!prev[section] || !prev[section][field] || !Array.isArray(prev[section][field])) {
-          console.warn(`removeArrayItem: ${field} не є масивом або не існує`)
-          return prev
-        }
-
-        return {
-          ...prev,
-          [section]: {
-            ...prev[section],
-            [field]: prev[section][field].filter((_, i) => i !== index),
-          },
-        }
-      })
-
-      // Зберігаємо в API
-      try {
-        const response = await fetch(`${API_BASE}/api/content/${section}/${field}/${index}`, {
-          method: 'DELETE'
-        })
-        
-        if (response.ok) {
-          console.log('API: елемент видалено успішно')
-        } else {
-          console.warn('API: помилка видалення елемента')
-        }
-      } catch (error) {
-        console.warn('API недоступний, зберігаю в localStorage:', error)
-        localStorage.setItem('portfolio-content', JSON.stringify(content))
+  const removeArrayItem = (field, index) => {
+    setContent(prev => {
+      // Перевіряємо, чи існує секція та поле
+      if (!prev.portfolio || !prev.portfolio[field] || !Array.isArray(prev.portfolio[field])) {
+        console.warn(`removeArrayItem: ${field} не є масивом або не існує`)
+        return prev
       }
-    } catch (error) {
-      console.error('Помилка видалення елемента:', error)
-    }
+
+      return {
+        ...prev,
+        portfolio: {
+          ...prev.portfolio,
+          [field]: prev.portfolio[field].filter((_, i) => i !== index),
+        },
+      }
+    })
   }
 
   // Функція для збереження змін в localStorage та GitHub
@@ -420,7 +258,6 @@ export const useContent = () => {
       const saved = localStorage.getItem('portfolio-content')
       if (saved) {
         const parsedContent = JSON.parse(saved)
-        // console.log('useContent hook - завантажено з localStorage:', parsedContent)
         setContent(parsedContent)
         return true
       }
@@ -432,7 +269,6 @@ export const useContent = () => {
 
   // Функція для скидання до початкового стану
   const resetToDefault = () => {
-    // console.log('useContent hook - скидаю до початкового стану')
     setContent(fallbackData)
     localStorage.removeItem('portfolio-content')
     setIsEditing(false)
@@ -440,7 +276,6 @@ export const useContent = () => {
 
   // Завантажуємо дані при ініціалізації
   useEffect(() => {
-    // console.log('useContent hook - useEffect викликано')
     loadContent()
   }, [])
 
