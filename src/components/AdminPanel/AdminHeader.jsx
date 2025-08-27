@@ -10,6 +10,8 @@ const AdminHeader = ({
   canUndo,
   canRedo,
   onOpenMobileSidebar,
+  onSave,
+  hasChanges,
 }) => {
   const formatLastSaved = date => {
     if (!date) return 'Ніколи'
@@ -87,6 +89,20 @@ const AdminHeader = ({
               title="Пошук (Ctrl+F)"
             >
               🔍
+            </button>
+
+            {/* Save Button */}
+            <button
+              onClick={onSave}
+              disabled={!hasChanges}
+              className={`w-8 h-8 rounded-lg transition-colors flex items-center justify-center text-sm ${
+                hasChanges 
+                  ? 'bg-green-500 hover:bg-green-600 text-white' 
+                  : 'bg-white/10 text-white/50 cursor-not-allowed'
+              }`}
+              title={hasChanges ? 'Зберегти зміни (Ctrl+S)' : 'Немає змін для збереження'}
+            >
+              💾
             </button>
           </div>
         </div>

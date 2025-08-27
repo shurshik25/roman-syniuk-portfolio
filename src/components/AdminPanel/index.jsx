@@ -35,7 +35,17 @@ const AdminPanel = () => {
 
   const autoSaveTimer = useRef(null)
 
-  const { content, isLoading, updateContent, updateNestedContent, reloadContent } = useContent()
+  const { 
+    content, 
+    isLoading, 
+    updateContent, 
+    updateNestedContent, 
+    updateArrayContent,
+    addArrayItem,
+    removeArrayItem,
+    saveChanges,
+    reloadContent 
+  } = useContent()
 
   // Встановлюємо початковий контент при першому завантаженні
   useEffect(() => {
@@ -54,36 +64,11 @@ const AdminPanel = () => {
   }, [content, originalContent])
 
 
-  // Функція updateNestedContent приходить з хуку useContent
-
-  const updateArrayContent = useCallback((section, field, index, value) => {
-    const array = [...(content[section][field] || [])]
-    array[index] = value
-    updateContent(section, field, array)
-  }, [updateContent, content])
-
-  const addArrayItem = useCallback((section, field, item) => {
-    const array = [...(content[section][field] || []), item]
-    updateContent(section, field, array)
-  }, [updateContent, content])
-
-  const removeArrayItem = useCallback((section, field, index) => {
-    const array = [...(content[section][field] || [])]
-    array.splice(index, 1)
-    updateContent(section, field, array)
-  }, [updateContent, content])
-
-  const saveChanges = useCallback(() => {
-    localStorage.setItem('portfolio-content', JSON.stringify(content))
-    setLastSaved(new Date())
-    setOriginalContent(JSON.stringify(content))
-    setHasChanges(false)
-  }, [content])
+  // Функції updateArrayContent, addArrayItem, removeArrayItem приходять з хуку useContent
 
   const resetToDefault = useCallback(() => {
     localStorage.removeItem('portfolio-content')
     reloadContent()
-
   }, [reloadContent])
 
   // Обробка історії змін
@@ -100,17 +85,23 @@ const AdminPanel = () => {
     []
   )
 
-  // Збереження
+  // Функція збереження змін
   const handleSave = useCallback(async () => {
     try {
-      await saveChanges()
-      setLastSaved(new Date())
-      addToHistory('save', 'Зміни збережено')
+      const success = await saveChanges()
+      if (success) {
+        setLastSaved(new Date())
+        setOriginalContent(JSON.stringify(content))
+        setHasChanges(false)
+        addToHistory('save', 'Збережено зміни')
+      }
     } catch (error) {
       console.error('Помилка збереження:', error)
-      addToHistory('error', `Помилка збереження: ${error.message}`)
+      addToHistory('error', 'Помилка збереження')
     }
-  }, [saveChanges, addToHistory])
+  }, [saveChanges, content, addToHistory])
+
+
 
   // Клавіатурні скорочення та секретні способи доступу
   useEffect(() => {
@@ -447,16 +438,18 @@ const AdminPanel = () => {
           {/* Main Content Area */}
           <div className="flex-1 flex flex-col bg-white content">
             {/* Header */}
-            <AdminHeader
-              onClose={() => setIsVisible(false)}
-              lastSaved={lastSaved}
-              autoSaveEnabled={autoSaveEnabled}
-              setAutoSaveEnabled={setAutoSaveEnabled}
-              onQuickAction={handleQuickAction}
-              canUndo={undoStack.length > 0}
-              canRedo={redoStack.length > 0}
-              onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
-            />
+                    <AdminHeader
+          onClose={() => setIsVisible(false)}
+          lastSaved={lastSaved}
+          autoSaveEnabled={autoSaveEnabled}
+          setAutoSaveEnabled={setAutoSaveEnabled}
+          onQuickAction={handleQuickAction}
+          canUndo={undoStack.length > 0}
+          canRedo={redoStack.length > 0}
+          onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
+          onSave={handleSave}
+          hasChanges={hasChanges}
+        />
 
             {/* Search Bar */}
             <AnimatePresence>

@@ -1,20 +1,15 @@
-name: Update Content and Deploy
+name: Manual Deploy
 
 on:
-  # Автоматичний запуск при зміні content.json
-  push:
-    branches: [ main ]
-    paths: [ 'public/content.json' ]
-  
-  # Ручний запуск
   workflow_dispatch:
-  
-  # Запуск від Адмін панелі
-  repository_dispatch:
-    types: [content-updated]
+    inputs:
+      message:
+        description: 'Deploy message'
+        required: false
+        default: 'Manual deployment'
 
 jobs:
-  update-content:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -37,16 +32,15 @@ jobs:
           rm -rf docs
           cp -r dist docs
           
-      - name: Commit and push changes
+      - name: Commit and push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add docs/
-          git add public/content.json
-          git commit -m "Auto-update: Rebuild and deploy with latest content"
+          git commit -m "Manual deploy: ${{ github.event.inputs.message }}"
           git push
           
-      - name: Deploy to GitHub Pages
+      - name: Success
         run: |
-          echo "✅ Deployment completed successfully!"
+          echo "✅ Manual deployment completed!"
           echo "🌐 Site will be updated in 5-10 minutes"

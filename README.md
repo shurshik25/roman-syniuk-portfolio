@@ -97,8 +97,14 @@ npm run deploy
 
 2. **Створіть .env файл:**
    ```bash
-   REACT_APP_GITHUB_TOKEN=your_token_here
+   # Скопіюйте env-template.txt в .env та замініть your_github_token_here на ваш токен
+   cp env-template.txt .env
+   # Відредагуйте .env файл
    ```
+
+3. **Перезапустіть dev сервер** після створення .env файлу
+
+4. **Тепер всі зміни в Адмін панелі будуть автоматично зберігатися на GitHub!**
 
 3. **Перезапустіть dev сервер:**
    ```bash

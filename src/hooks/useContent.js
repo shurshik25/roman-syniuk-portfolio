@@ -108,6 +108,7 @@ export const useContent = () => {
       if (saved) {
         const parsedContent = JSON.parse(saved)
         console.log('useContent hook - завантажено з localStorage:', parsedContent)
+        console.log('useContent hook - projectAvailability з localStorage:', parsedContent?.contact?.projectAvailability)
         setContent(parsedContent)
         setIsLoading(false)
         return
@@ -119,9 +120,11 @@ export const useContent = () => {
         if (response.ok) {
           const contentData = await response.json()
           console.log('useContent hook - завантажено з файлу:', contentData)
+          console.log('useContent hook - projectAvailability з файлу:', contentData?.contact?.projectAvailability)
           setContent(contentData)
         } else {
           console.log('useContent hook - не вдалося завантажити файл, використовую fallback')
+          console.log('useContent hook - projectAvailability з fallback:', fallbackData?.contact?.projectAvailability)
           setContent(fallbackData)
         }
       } catch (error) {
@@ -244,7 +247,12 @@ export const useContent = () => {
 
   // Функція для оновлення масивів
   const updateArrayContent = (field, index, value) => {
+    console.log('updateArrayContent викликано:', { field, index, value })
+    
     setContent(prev => {
+      console.log('updateArrayContent: prev content:', prev)
+      console.log('updateArrayContent: перевіряємо секції для поля:', field)
+      
       // Визначаємо, в якій секції знаходиться поле
       let section = null
       let sectionKey = null
@@ -253,29 +261,48 @@ export const useContent = () => {
       if (prev.portfolio && prev.portfolio[field] && Array.isArray(prev.portfolio[field])) {
         section = 'portfolio'
         sectionKey = field
+        console.log('updateArrayContent: знайдено в portfolio секції')
       } else if (prev.contact && prev.contact[field] && Array.isArray(prev.contact[field])) {
         section = 'contact'
         sectionKey = field
+        console.log('updateArrayContent: знайдено в contact секції')
       } else if (prev.about && prev.about[field] && Array.isArray(prev.about[field])) {
         section = 'about'
         sectionKey = field
+        console.log('updateArrayContent: знайдено в about секції')
       } else if (prev.videoRepertoire && prev.videoRepertoire[field] && Array.isArray(prev.videoRepertoire[field])) {
         section = 'videoRepertoire'
         sectionKey = field
+        console.log('updateArrayContent: знайдено в videoRepertoire секції')
       }
+      
+      console.log('updateArrayContent: результат пошуку:', { section, sectionKey })
       
       if (!section) {
         console.warn(`updateArrayContent: ${field} не знайдено в жодній секції або не є масивом`)
+        console.warn('updateArrayContent: доступні секції:', {
+          portfolio: prev.portfolio ? Object.keys(prev.portfolio) : 'не існує',
+          contact: prev.contact ? Object.keys(prev.contact) : 'не існує',
+          about: prev.about ? Object.keys(prev.about) : 'не існує',
+          videoRepertoire: prev.videoRepertoire ? Object.keys(prev.videoRepertoire) : 'не існує'
+        })
         return prev
       }
+
+      console.log('updateArrayContent: оновлюємо масив:', { section, sectionKey, index, value })
+      console.log('updateArrayContent: поточний масив:', prev[section][sectionKey])
+
+      const updatedArray = prev[section][sectionKey].map((item, i) =>
+        i === index ? { ...item, ...value } : item
+      )
+      
+      console.log('updateArrayContent: оновлений масив:', updatedArray)
 
       return {
         ...prev,
         [section]: {
           ...prev[section],
-          [sectionKey]: prev[section][sectionKey].map((item, i) =>
-            i === index ? { ...item, ...value } : item
-          ),
+          [sectionKey]: updatedArray,
         },
       }
     })
@@ -371,31 +398,44 @@ export const useContent = () => {
     try {
       // Зберігаємо в localStorage
       localStorage.setItem('portfolio-content', JSON.stringify(content))
+      console.log('✅ Контент збережено в localStorage')
       
       // Зберігаємо в content.json (для GitHub) через GitHub API
-      try {
-        const response = await fetch('https://api.github.com/repos/shurshik25/roman-syniuk-portfolio/dispatches', {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': `token ${process.env.REACT_APP_GITHUB_TOKEN}`,
-            'Accept': 'application/vnd.github.v3+json'
-          },
-          body: JSON.stringify({
-            event_type: 'content-updated',
-            client_payload: {
-              content: JSON.stringify(content, null, 2)
-            }
+      const githubToken = import.meta.env.VITE_GITHUB_TOKEN
+      
+      if (githubToken && githubToken !== 'your_github_token_here') {
+        try {
+          console.log('🚀 Відправляю зміни на GitHub...')
+          
+          const response = await fetch('https://api.github.com/repos/shurshik25/roman-syniuk-portfolio/dispatches', {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json',
+              'Authorization': `token ${githubToken}`,
+              'Accept': 'application/vnd.github.v3+json'
+            },
+            body: JSON.stringify({
+              event_type: 'content-updated',
+              client_payload: {
+                content: JSON.stringify(content, null, 2)
+              }
+            })
           })
-        })
-        
-        if (response.ok) {
-          console.log('✅ Контент відправлено на оновлення в GitHub')
-        } else {
-          console.warn('⚠️ Не вдалося оновити GitHub, але localStorage оновлено')
+          
+          if (response.ok) {
+            console.log('✅ Контент відправлено на оновлення в GitHub!')
+            console.log('📝 GitHub Actions автоматично оновить public/content.json та розгорне сайт')
+          } else {
+            const errorData = await response.json()
+            console.warn('⚠️ Не вдалося оновити GitHub:', errorData)
+            console.warn('💡 Перевірте ваш GitHub токен та права доступу')
+          }
+        } catch (error) {
+          console.warn('⚠️ GitHub API недоступний, зберігаю тільки в localStorage:', error)
         }
-      } catch (error) {
-        console.warn('⚠️ GitHub API недоступний, зберігаю тільки в localStorage:', error)
+      } else {
+        console.log('💡 GitHub токен не налаштований')
+        console.log('📝 Створіть .env файл з VITE_GITHUB_TOKEN для автоматичного збереження')
       }
       
       setIsEditing(false)

@@ -30,6 +30,8 @@ const ContactSection = ({
   }, [updateNestedContent, addToHistory])
 
   const handleServiceToggle = (index, service) => {
+    console.log('handleServiceToggle викликано:', { index, service, data: data?.projectAvailability })
+    
     // Перевіряємо, чи існує service та чи валідний index
     if (!service || !data.projectAvailability || !Array.isArray(data.projectAvailability)) {
       console.warn('handleServiceToggle: невалідні дані', { service, projectAvailability: data.projectAvailability })
@@ -41,8 +43,19 @@ const ContactSection = ({
       return
     }
     
+    console.log('handleServiceToggle: оновлюємо послугу', { index, service, updatedService: { ...service, available: !service.available } })
+    
     const updatedService = { ...service, available: !service.available }
-    updateArrayContent('projectAvailability', index, updatedService)
+    console.log('handleServiceToggle: викликаємо updateArrayContent з параметрами:', { field: 'projectAvailability', index, value: updatedService })
+    console.log('handleServiceToggle: updateArrayContent функція:', updateArrayContent)
+    
+    try {
+      updateArrayContent('projectAvailability', index, updatedService)
+      console.log('handleServiceToggle: updateArrayContent викликано успішно')
+    } catch (error) {
+      console.error('handleServiceToggle: помилка при виклику updateArrayContent:', error)
+    }
+    
     addToHistory('edit', `Змінено доступність послуги "${service.service}"`)
   }
 
@@ -252,69 +265,72 @@ const ContactSection = ({
       </div>
 
       <div className="space-y-4">
-        {data.projectAvailability && Array.isArray(data.projectAvailability) && data.projectAvailability.length > 0 ? (
-          data.projectAvailability.map((service, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-all"
-            >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div
-                  className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                    service.available ? 'bg-green-100' : 'bg-gray-100'
-                  }`}
-                >
-                  <span className={`text-xl ${
-                    service.available ? 'text-green-600' : 'text-gray-500'
-                  }`}>
-                    {service.service.includes('Театральні')
-                      ? '🎭'
-                      : service.service.includes('Кінофільми')
-                        ? '🎬'
-                        : service.service.includes('Рекламні')
-                          ? '📺'
-                          : service.service.includes('Голосове')
-                            ? '🎤'
-                            : service.service.includes('Модельні')
-                              ? '📸'
-                              : '💼'}
-                  </span>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900">{service.service}</h4>
-                  <p className="text-sm text-gray-500">
-                    {service.available ? 'Доступно для замовлення' : 'Наразі недоступно'}
-                  </p>
-                </div>
-              </div>
-
-              <button
-                onClick={() => handleServiceToggle(index, service)}
-                className={`relative w-14 h-7 rounded-full transition-colors ${
-                  service.available ? 'bg-green-400' : 'bg-gray-300'
-                }`}
+                {(() => {
+          console.log('renderServicesTab: data.projectAvailability:', data.projectAvailability)
+          return data.projectAvailability && Array.isArray(data.projectAvailability) && data.projectAvailability.length > 0 ? (
+            data.projectAvailability.map((service, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-all"
               >
-                <motion.div
-                  className="absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow-sm"
-                  animate={{ x: service.available ? 24 : 0 }}
-                  transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                />
-              </button>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div
+                      className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                        service.available ? 'bg-green-100' : 'bg-gray-100'
+                      }`}
+                    >
+                      <span className={`text-xl ${
+                        service.available ? 'text-green-600' : 'text-gray-500'
+                      }`}>
+                        {service.service.includes('Театральні')
+                          ? '🎭'
+                          : service.service.includes('Кінофільми')
+                            ? '🎬'
+                            : service.service.includes('Рекламні')
+                              ? '📺'
+                              : service.service.includes('Голосове')
+                                ? '🎤'
+                                : service.service.includes('Модельні')
+                                  ? '📸'
+                                  : '💼'}
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900">{service.service}</h4>
+                      <p className="text-sm text-gray-500">
+                        {service.available ? 'Доступно для замовлення' : 'Наразі недоступно'}
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => handleServiceToggle(index, service)}
+                    className={`relative w-14 h-7 rounded-full transition-colors ${
+                      service.available ? 'bg-green-400' : 'bg-gray-300'
+                    }`}
+                  >
+                    <motion.div
+                      className="absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow-sm"
+                      animate={{ x: service.available ? 24 : 0 }}
+                      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                    />
+                  </button>
+                </div>
+              </motion.div>
+            ))
+          ) : (
+            <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl text-gray-400">💼</span>
+              </div>
+              <h4 className="text-lg font-medium text-gray-600 mb-2">Послуги ще не налаштовані</h4>
+              <p className="text-gray-500">Додайте послуги, які ви надаєте, щоб клієнти могли їх бачити</p>
             </div>
-          </motion.div>
-        ))
-        ) : (
-          <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-2xl text-gray-400">💼</span>
-            </div>
-            <h4 className="text-lg font-medium text-gray-600 mb-2">Послуги ще не налаштовані</h4>
-            <p className="text-gray-500">Додайте послуги, які ви надаєте, щоб клієнти могли їх бачити</p>
-          </div>
-        )}
+          )
+        })()}
       </div>
 
       {/* Statistics */}
