@@ -143,24 +143,24 @@ export const useContent = () => {
   }
 
   // Функція для оновлення контенту
-  const updateContent = (field, value) => {
+  const updateContent = (section, field, value) => {
     setContent(prev => ({
       ...prev,
-      hero: {
-        ...prev.hero,
+      [section]: {
+        ...prev[section],
         [field]: value,
       },
     }))
   }
 
   // Функція для оновлення вкладених полів
-  const updateNestedContent = (field, subField, value) => {
+  const updateNestedContent = (section, field, subField, value) => {
     setContent(prev => ({
       ...prev,
-      contact: {
-        ...prev.contact,
+      [section]: {
+        ...prev[section],
         [field]: {
-          ...prev.contact[field],
+          ...prev[section][field],
           [subField]: value,
         },
       },
@@ -168,19 +168,19 @@ export const useContent = () => {
   }
 
   // Функція для оновлення масивів
-  const updateArrayContent = (field, index, value) => {
+  const updateArrayContent = (section, field, index, value) => {
     setContent(prev => {
       // Перевіряємо, чи існує секція та поле
-      if (!prev.portfolio || !prev.portfolio[field] || !Array.isArray(prev.portfolio[field])) {
+      if (!prev[section] || !prev[section][field] || !Array.isArray(prev[section][field])) {
         console.warn(`updateArrayContent: ${field} не є масивом або не існує`)
         return prev
       }
 
       return {
         ...prev,
-        portfolio: {
-          ...prev.portfolio,
-          [field]: prev.portfolio[field].map((item, i) =>
+        [section]: {
+          ...prev[section],
+          [field]: prev[section][field].map((item, i) =>
             i === index ? { ...item, ...value } : item
           ),
         },
@@ -189,54 +189,54 @@ export const useContent = () => {
   }
 
   // Функція для додавання нового елемента в масив
-  const addArrayItem = (field, newItem) => {
+  const addArrayItem = (section, field, newItem) => {
     setContent(prev => {
       // Перевіряємо, чи існує секція та поле
-      if (!prev.portfolio) {
-        console.warn(`addArrayItem: секція portfolio не існує`)
+      if (!prev[section]) {
+        console.warn(`addArrayItem: секція ${section} не існує`)
         return prev
       }
 
-      if (!prev.portfolio[field]) {
+      if (!prev[section][field]) {
         // Якщо поле не існує, створюємо його як масив
         return {
           ...prev,
-          portfolio: {
-            ...prev.portfolio,
+          [section]: {
+            ...prev[section],
             [field]: [newItem],
           },
         }
       }
 
-      if (!Array.isArray(prev.portfolio[field])) {
+      if (!Array.isArray(prev[section][field])) {
         console.warn(`addArrayItem: ${field} не є масивом`)
         return prev
       }
 
       return {
         ...prev,
-        portfolio: {
-          ...prev.portfolio,
-          [field]: [...prev.portfolio[field], newItem],
+        [section]: {
+          ...prev[section],
+          [field]: [...prev[section][field], newItem],
         },
       }
     })
   }
 
   // Функція для видалення елемента з масиву
-  const removeArrayItem = (field, index) => {
+  const removeArrayItem = (section, field, index) => {
     setContent(prev => {
       // Перевіряємо, чи існує секція та поле
-      if (!prev.portfolio || !prev.portfolio[field] || !Array.isArray(prev.portfolio[field])) {
+      if (!prev[section] || !prev[section][field] || !Array.isArray(prev[section][field])) {
         console.warn(`removeArrayItem: ${field} не є масивом або не існує`)
         return prev
       }
 
       return {
         ...prev,
-        portfolio: {
-          ...prev.portfolio,
-          [field]: prev.portfolio[field].filter((_, i) => i !== index),
+        [section]: {
+          ...prev[section],
+          [field]: prev[section][field].filter((_, i) => i !== index),
         },
       }
     })
