@@ -114,13 +114,36 @@ export const useContent = () => {
 
   // Функція для оновлення контенту
   const updateContent = (field, value) => {
-    setContent(prev => ({
-      ...prev,
-      hero: {
-        ...prev.hero,
-        [field]: value,
-      },
-    }))
+    setContent(prev => {
+      // Визначаємо, в якій секції знаходиться поле
+      let section = null
+      
+      // Перевіряємо різні секції
+      if (prev.hero && prev.hero[field] !== undefined) {
+        section = 'hero'
+      } else if (prev.about && prev.about[field] !== undefined) {
+        section = 'about'
+      } else if (prev.portfolio && prev.portfolio[field] !== undefined) {
+        section = 'portfolio'
+      } else if (prev.videoRepertoire && prev.videoRepertoire[field] !== undefined) {
+        section = 'videoRepertoire'
+      } else if (prev.contact && prev.contact[field] !== undefined) {
+        section = 'contact'
+      }
+      
+      // Якщо поле не знайдено, за замовчуванням оновлюємо hero
+      if (!section) {
+        section = 'hero'
+      }
+      
+      return {
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [field]: value,
+        },
+      }
+    })
   }
 
   // Функція для оновлення вкладених полів
@@ -132,15 +155,36 @@ export const useContent = () => {
       const subFieldParts = subField.split('.')
       console.log('subFieldParts:', subFieldParts)
       
+      // Визначаємо, в якій секції знаходиться поле
+      let section = null
+      
+      // Перевіряємо різні секції
+      if (prev.hero && prev.hero[field] !== undefined) {
+        section = 'hero'
+      } else if (prev.about && prev.about[field] !== undefined) {
+        section = 'about'
+      } else if (prev.portfolio && prev.portfolio[field] !== undefined) {
+        section = 'portfolio'
+      } else if (prev.videoRepertoire && prev.videoRepertoire[field] !== undefined) {
+        section = 'videoRepertoire'
+      } else if (prev.contact && prev.contact[field] !== undefined) {
+        section = 'contact'
+      }
+      
+      // Якщо поле не знайдено, за замовчуванням оновлюємо contact
+      if (!section) {
+        section = 'contact'
+      }
+      
       if (subFieldParts.length === 1) {
         // Простий випадок: field.subField
-        console.log('Простий випадок:', { field, subField, value })
+        console.log('Простий випадок:', { field, subField, value, section })
         return {
           ...prev,
-          contact: {
-            ...prev.contact,
+          [section]: {
+            ...prev[section],
             [field]: {
-              ...prev.contact[field],
+              ...prev[section][field],
               [subField]: value,
             },
           },
@@ -148,16 +192,16 @@ export const useContent = () => {
       } else {
         // Складний випадок: field.subField1.subField2 (наприклад: "facebook.url")
         const [firstPart, secondPart] = subFieldParts
-        console.log('Складний випадок:', { field, firstPart, secondPart, value })
+        console.log('Складний випадок:', { field, firstPart, secondPart, value, section })
         
         return {
           ...prev,
-          contact: {
-            ...prev.contact,
+          [section]: {
+            ...prev[section],
             [field]: {
-              ...prev.contact[field],
+              ...prev[section][field],
               [firstPart]: {
-                ...prev.contact[field]?.[firstPart],
+                ...prev[section][field]?.[firstPart],
                 [secondPart]: value,
               },
             },
