@@ -242,14 +242,42 @@ export const useContent = () => {
     })
   }
 
-  // Функція для збереження змін в localStorage
-  const saveChanges = () => {
+  // Функція для збереження змін в localStorage та GitHub
+  const saveChanges = async () => {
     try {
+      // Зберігаємо в localStorage
       localStorage.setItem('portfolio-content', JSON.stringify(content))
+      
+      // Зберігаємо в content.json (для GitHub) через GitHub API
+      try {
+        const response = await fetch('https://api.github.com/repos/shurshik25/roman-syniuk-portfolio/dispatches', {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `token ${process.env.REACT_APP_GITHUB_TOKEN}`,
+            'Accept': 'application/vnd.github.v3+json'
+          },
+          body: JSON.stringify({
+            event_type: 'content-updated',
+            client_payload: {
+              content: JSON.stringify(content, null, 2)
+            }
+          })
+        })
+        
+        if (response.ok) {
+          console.log('✅ Контент відправлено на оновлення в GitHub')
+        } else {
+          console.warn('⚠️ Не вдалося оновити GitHub, але localStorage оновлено')
+        }
+      } catch (error) {
+        console.warn('⚠️ GitHub API недоступний, зберігаю тільки в localStorage:', error)
+      }
+      
       setIsEditing(false)
       return true
     } catch (error) {
-      console.error('Помилка збереження:', error)
+      console.error('❌ Помилка збереження:', error)
       return false
     }
   }

@@ -1,0 +1,40 @@
+name: Update Content from Admin Panel
+
+on:
+  repository_dispatch:
+    types: [content-updated]
+
+jobs:
+  update-content:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Update content.json
+        run: |
+          echo '${{ github.event.client_payload.content }}' > public/content.json
+          
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add public/content.json
+          git commit -m "Update content from Admin Panel"
+          git push
+          
+      - name: Rebuild and deploy
+        run: |
+          npm ci
+          npm run build
+          
+      - name: Update docs folder
+        run: |
+          rm -rf docs
+          cp -r dist docs
+          
+      - name: Deploy to GitHub Pages
+        run: |
+          git add docs/
+          git commit -m "Rebuild docs for GitHub Pages"
+          git push
