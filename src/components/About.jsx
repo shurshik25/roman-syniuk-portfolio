@@ -202,12 +202,16 @@ const About = () => {
             <div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4 select-none">Освіта</h3>
               <div className="space-y-3">
-                {content.about.education.map((edu, index) => (
+                {content.about.education && Array.isArray(content.about.education) && content.about.education.map((edu, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div className="w-3 h-3 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 select-none">{edu.institution}</h4>
-                      <p className="text-gray-600 select-none">{edu.degree}</p>
+                      <h4 className="font-semibold text-gray-900 select-none">
+                        {typeof edu === 'string' ? edu : edu.institution || 'Назва закладу'}
+                      </h4>
+                      <p className="text-gray-600 select-none">
+                        {typeof edu === 'string' ? '' : edu.degree || 'Ступінь'}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -218,12 +222,16 @@ const About = () => {
             <div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4 select-none">Досвід</h3>
               <div className="space-y-3">
-                {content.about.experience.map((exp, index) => (
+                {content.about.experience && Array.isArray(content.about.experience) && content.about.experience.map((exp, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div className="w-3 h-3 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 select-none">{exp.title}</h4>
-                      <p className="text-gray-600 select-none">{exp.description}</p>
+                      <h4 className="font-semibold text-gray-900 select-none">
+                        {typeof exp === 'string' ? exp : exp.title || 'Назва посади'}
+                      </h4>
+                      <p className="text-gray-600 select-none">
+                        {typeof exp === 'string' ? '' : exp.description || 'Опис роботи'}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -234,7 +242,7 @@ const About = () => {
             <div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4 select-none">Навички</h3>
               <div className="grid grid-cols-2 gap-3">
-                {content.about.skills.map((skill, index) => (
+                {content.about.skills && Array.isArray(content.about.skills) && content.about.skills.map((skill, index) => (
                   <div key={index} className="flex items-center space-x-2">
                     <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                     <span className="text-gray-600 select-none">{skill}</span>
@@ -247,12 +255,16 @@ const About = () => {
             <div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4 select-none">Досягнення</h3>
               <div className="space-y-3">
-                {content.about.achievements.map((achievement, index) => (
+                {content.about.achievements && Array.isArray(content.about.achievements) && content.about.achievements.map((achievement, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div className="w-3 h-3 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 select-none">{achievement.title}</h4>
-                      <p className="text-gray-600 select-none">{achievement.description}</p>
+                      <h4 className="font-semibold text-gray-900 select-none">
+                        {typeof achievement === 'string' ? achievement : achievement.title || 'Назва досягнення'}
+                      </h4>
+                      <p className="text-gray-600 select-none">
+                        {typeof achievement === 'string' ? '' : achievement.description || 'Опис досягнення'}
+                      </p>
                     </div>
                   </div>
                 ))}

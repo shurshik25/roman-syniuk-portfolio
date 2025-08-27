@@ -339,14 +339,16 @@ const Contact = () => {
               </div>
 
               <div className="space-y-4">
-                {content.contact.projectAvailability.map((service, index) => (
+                {content.contact.projectAvailability && Array.isArray(content.contact.projectAvailability) && content.contact.projectAvailability.map((service, index) => (
                   <div key={index} className="flex items-center space-x-3">
                     <div
                       className={`w-3 h-3 rounded-full ${
-                        service.available ? 'bg-green-500' : 'bg-yellow-500'
+                        typeof service === 'object' && service.available ? 'bg-green-500' : 'bg-yellow-500'
                       }`}
                     ></div>
-                    <span className={isDark ? 'text-slate-300' : 'text-gray-700'}>{service.service}</span>
+                    <span className={isDark ? 'text-slate-300' : 'text-gray-700'}>
+                      {typeof service === 'string' ? service : service.service || 'Послуга'}
+                    </span>
                   </div>
                 ))}
               </div>

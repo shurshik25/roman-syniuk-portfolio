@@ -11,18 +11,18 @@ const fallbackData = {
     description:
       'Професійний актор з Хмельницького, спеціалізується на театральних постановках та кіноролях.',
     profileImage: '',
-    stats: {
-      roles: '50+',
-      experience: '10+',
-      availability: '100%',
-    },
+    stats: [
+      { label: 'Ролей', value: '50+' },
+      { label: 'Досвіду', value: '10+' },
+      { label: 'Доступність', value: '100%' },
+    ],
   },
   about: {
     biography: 'Роман Синюк - талановитий актор та автор цифрового контенту з Хмельницького.',
-    education: [],
-    experience: [],
-    skills: [],
-    achievements: [],
+    education: ['Театральний університет', 'Курси акторської майстерності'],
+    experience: ['Театр імені Шевченка', 'Кіностудія Довженка'],
+    skills: ['Акторська майстерність', 'Сценічна мова', 'Пластика', 'Вокал'],
+    achievements: ['Лауреат театральних фестивалів', 'Нагороди за найкращі ролі'],
   },
   portfolio: {
     categories: [
@@ -31,7 +31,22 @@ const fallbackData = {
       { id: 'cinema', label: 'Кіно' },
       { id: 'photo', label: 'Фотосесії' },
     ],
-    works: [],
+    works: [
+      {
+        id: 1,
+        title: 'Гамлет',
+        description: 'Головна роль у виставі "Гамлет"',
+        image: '/roman-syniuk-portfolio/images/theater/492004700_9329654113830678_7770632857348615682_n.jpg',
+        category: 'theater'
+      },
+      {
+        id: 2,
+        title: 'Король Лір',
+        description: 'Роль Едгара у виставі "Король Лір"',
+        image: '/roman-syniuk-portfolio/images/theater/492057926_9329654067164016_4594880287050514130_n.jpg',
+        category: 'theater'
+      }
+    ],
   },
   videoRepertoire: {
     categories: [
@@ -80,7 +95,7 @@ const fallbackData = {
         followers: 'TikTok профіль',
       },
     },
-    projectAvailability: [],
+    projectAvailability: ['Театральні постановки', 'Кінофільми', 'Телесеріали'],
     note: '',
   },
 }
