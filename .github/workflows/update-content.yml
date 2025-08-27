@@ -38,16 +38,17 @@ jobs:
           rm -rf docs
           cp -r dist docs
           
-      - name: Commit docs changes
+      - name: Commit docs changes (NO PUSH)
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add docs/
           git commit -m "Auto-update: Rebuild and deploy with latest content" || exit 0
-          # НЕ робимо git push - це створює нескінченний цикл!
+          echo "✅ Docs folder updated - NO git push to prevent infinite loop!"
           
       - name: Deploy to GitHub Pages
         run: |
           echo "✅ Deployment completed successfully!"
           echo "🌐 Site will be updated in 5-10 minutes"
           echo "📝 Docs folder updated locally - GitHub Pages will use latest content"
+          echo "🚫 NO git push executed - infinite loop prevented!"

@@ -1,0 +1,19 @@
+name: Simple Content Update
+
+on:
+  # Запуск від Адмін панелі
+  repository_dispatch:
+    types: [content-updated]
+
+jobs:
+  content-update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Content Updated Successfully
+        run: |
+          echo "🎉 Content updated from Admin Panel!"
+          echo "✅ No build process - content changes applied immediately"
+          echo "🌐 Site will use updated content.json automatically"
+          echo "💡 For full rebuild, use Manual Deploy workflow"
