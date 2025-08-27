@@ -59,7 +59,38 @@ const fallbackData = {
         followers: 'TikTok профіль',
       },
     },
-    projectAvailability: [],
+    projectAvailability: [
+      {
+        service: 'Театральні постановки',
+        available: true,
+        description: 'Головні ролі в театральних виставах',
+        price: 'Договірна'
+      },
+      {
+        service: 'Кінофільми та серіали',
+        available: true,
+        description: 'Ролі в кіно та телебаченні',
+        price: 'Договірна'
+      },
+      {
+        service: 'Рекламні ролики',
+        available: true,
+        description: 'Зйомки реклами та промо-матеріалів',
+        price: 'Договірна'
+      },
+      {
+        service: 'Голосове озвучування',
+        available: false,
+        description: 'Озвучування анімації та документальних фільмів',
+        price: 'Договірна'
+      },
+      {
+        service: 'Модельні зйомки',
+        available: true,
+        description: 'Фотосесії та fashion зйомки',
+        price: 'Договірна'
+      }
+    ],
     note: '',
   },
 }

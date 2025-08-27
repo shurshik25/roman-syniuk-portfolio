@@ -30,6 +30,17 @@ const ContactSection = ({
   }, [updateNestedContent, addToHistory])
 
   const handleServiceToggle = (index, service) => {
+    // Перевіряємо, чи існує service та чи валідний index
+    if (!service || !data.projectAvailability || !Array.isArray(data.projectAvailability)) {
+      console.warn('handleServiceToggle: невалідні дані', { service, projectAvailability: data.projectAvailability })
+      return
+    }
+    
+    if (index < 0 || index >= data.projectAvailability.length) {
+      console.warn('handleServiceToggle: невалідний індекс', { index, length: data.projectAvailability.length })
+      return
+    }
+    
     const updatedService = { ...service, available: !service.available }
     updateArrayContent('projectAvailability', index, updatedService)
     addToHistory('edit', `Змінено доступність послуги "${service.service}"`)
@@ -241,13 +252,14 @@ const ContactSection = ({
       </div>
 
       <div className="space-y-4">
-        {data.projectAvailability?.map((service, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-all"
-          >
+        {data.projectAvailability && Array.isArray(data.projectAvailability) && data.projectAvailability.length > 0 ? (
+          data.projectAvailability.map((service, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-all"
+            >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div
@@ -293,7 +305,16 @@ const ContactSection = ({
               </button>
             </div>
           </motion.div>
-        ))}
+        ))
+        ) : (
+          <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl text-gray-400">💼</span>
+            </div>
+            <h4 className="text-lg font-medium text-gray-600 mb-2">Послуги ще не налаштовані</h4>
+            <p className="text-gray-500">Додайте послуги, які ви надаєте, щоб клієнти могли їх бачити</p>
+          </div>
+        )}
       </div>
 
       {/* Statistics */}
