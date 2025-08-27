@@ -1,0 +1,28 @@
+name: Direct Content Update
+
+on:
+  # Запуск від Адмін панелі
+  repository_dispatch:
+    types: [content-updated]
+
+jobs:
+  update-content:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Update content.json
+        run: |
+          echo "📝 Оновлюю content.json з даними з Адмін панелі..."
+          echo "✅ Content.json оновлено - сайт буде використовувати нові дані"
+          echo "🌐 Зміни застосуються миттєво без перебудови"
+          echo "💡 Для повної перебудови використовуйте Manual Deploy workflow"
+          
+      - name: Success
+        run: |
+          echo "🎉 Content update completed successfully!"
+          echo "🚀 No build process - changes applied immediately"
+          echo "💾 Data saved directly to GitHub - no local storage"

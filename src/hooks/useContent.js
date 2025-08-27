@@ -393,15 +393,12 @@ export const useContent = () => {
     })
   }
 
-  // Функція для збереження змін в localStorage та GitHub
+  // Функція для прямого збереження змін в GitHub (без localStorage)
   const saveChanges = async () => {
     try {
-      // Зберігаємо в localStorage
-      localStorage.setItem('portfolio-content', JSON.stringify(content))
-      console.log('✅ Контент збережено в localStorage')
-      
-      // Зберігаємо в content.json (для GitHub) через GitHub API
+      // Пряме збереження в GitHub через API
       const githubToken = import.meta.env.VITE_GITHUB_TOKEN
+      console.log('🔍 GitHub токен:', githubToken ? '✅ Налаштовано' : '❌ Не налаштовано')
       
       if (githubToken && githubToken !== 'your_github_token_here') {
         try {
@@ -425,17 +422,21 @@ export const useContent = () => {
           if (response.ok) {
             console.log('✅ Контент відправлено на оновлення в GitHub!')
             console.log('📝 GitHub Actions автоматично оновить public/content.json та розгорне сайт')
+            console.log('💾 Дані зберігаються тільки в GitHub - локальне зберігання відключено')
           } else {
             const errorData = await response.json()
             console.warn('⚠️ Не вдалося оновити GitHub:', errorData)
             console.warn('💡 Перевірте ваш GitHub токен та права доступу')
+            throw new Error('GitHub API error')
           }
         } catch (error) {
-          console.warn('⚠️ GitHub API недоступний, зберігаю тільки в localStorage:', error)
+          console.error('❌ GitHub API недоступний:', error)
+          throw new Error('GitHub API недоступний')
         }
       } else {
         console.log('💡 GitHub токен не налаштований')
         console.log('📝 Створіть .env файл з VITE_GITHUB_TOKEN для автоматичного збереження')
+        throw new Error('GitHub токен не налаштований')
       }
       
       setIsEditing(false)
@@ -446,26 +447,11 @@ export const useContent = () => {
     }
   }
 
-  // Функція для завантаження збережених змін
-  const loadSavedChanges = () => {
-    try {
-      const saved = localStorage.getItem('portfolio-content')
-      if (saved) {
-        const parsedContent = JSON.parse(saved)
-        setContent(parsedContent)
-        return true
-      }
-    } catch (error) {
-      console.error('Помилка завантаження:', error)
-    }
-    return false
-  }
-
-  // Функція для скидання до початкового стану
+  // Функція для скидання до початкового стану (без localStorage)
   const resetToDefault = () => {
     setContent(fallbackData)
-    localStorage.removeItem('portfolio-content')
     setIsEditing(false)
+    console.log('🔄 Контент скинуто до початкового стану')
   }
 
   // Завантажуємо дані при ініціалізації
@@ -484,7 +470,6 @@ export const useContent = () => {
     addArrayItem,
     removeArrayItem,
     saveChanges,
-    loadSavedChanges,
     resetToDefault,
     reloadContent,
   }
