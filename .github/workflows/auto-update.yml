@@ -1,25 +1,19 @@
-name: Update Content and Deploy
+name: Auto Update on Content Change
 
 on:
-  # Ручний запуск
-  workflow_dispatch:
-  
-  # Запуск від Адмін панелі
-  repository_dispatch:
-    types: [content-updated]
+  push:
+    branches: [ main ]
+    paths: [ 'public/content.json' ]
 
 jobs:
-  update-content:
+  rebuild:
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pages: write
-      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -38,15 +32,15 @@ jobs:
           rm -rf docs
           cp -r dist docs
           
-      - name: Commit and push changes
+      - name: Commit docs changes
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add docs/
-          git commit -m "Auto-update: Rebuild and deploy with latest content" || exit 0
+          git commit -m "Auto-rebuild: Update docs after content change" || exit 0
           git push origin main
           
-      - name: Deploy to GitHub Pages
+      - name: Success
         run: |
-          echo "✅ Deployment completed successfully!"
+          echo "✅ Auto-update completed successfully!"
           echo "🌐 Site will be updated in 5-10 minutes"
