@@ -6,13 +6,13 @@ const ANALYTICS_CONFIG = {
   GA4_MEASUREMENT_ID: 'G-XXXXXXXXXX', // Замініть на реальний ID
 
   // Web Vitals tracking
-  VITALS_ENDPOINT: '/api/vitals',
+  VITALS_ENDPOINT: 'https://your-api-domain.com/api/vitals',
 
   // Error tracking
-  ERROR_ENDPOINT: '/api/errors',
+  ERROR_ENDPOINT: 'https://your-api-domain.com/api/errors',
 
   // User events
-  EVENTS_ENDPOINT: '/api/events',
+  EVENTS_ENDPOINT: 'https://your-api-domain.com/api/events',
 
   // Debug mode
   DEBUG: import.meta.env.DEV,
