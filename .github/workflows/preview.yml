@@ -39,9 +39,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: 'Preview for PR #${{ github.event.number }}'
           alias: pr-${{ github.event.number }}
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
 
       - name: Run Lighthouse on Preview
         uses: treosh/lighthouse-ci-action@v10
