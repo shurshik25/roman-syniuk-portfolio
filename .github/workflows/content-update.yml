@@ -1,0 +1,22 @@
+name: Content Update Only
+
+on:
+  # Запуск від Адмін панелі
+  repository_dispatch:
+    types: [content-updated]
+
+jobs:
+  update-content:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Content Updated
+        run: |
+          echo "📝 Content updated from Admin Panel"
+          echo "✅ Content.json will be updated automatically"
+          echo "🌐 Site will use new content immediately"
+          echo "💡 For full rebuild, use Manual Deploy workflow"
