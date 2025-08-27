@@ -21,7 +21,7 @@
 
 ## 📦 Встановлення
 
-```bash
+   ```bash
 # Клонувати репозиторій
 git clone https://github.com/your-username/actor-portfolio.git
 
@@ -29,7 +29,7 @@ git clone https://github.com/your-username/actor-portfolio.git
 cd actor-portfolio
 
 # Встановити залежності
-npm install
+   npm install
 
 # Запустити в режимі розробки
 npm run dev
@@ -41,7 +41,7 @@ npm run build
 ## 🎯 Використання
 
 ### Розробка
-```bash
+   ```bash
 npm run dev          # Запуск dev сервера
 npm run build        # Збірка проекту
 npm run lint         # Перевірка коду
