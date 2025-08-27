@@ -3,7 +3,7 @@
     "name": "Роман Синюк",
     "title": "Актор театру та кіно • Автор цифрового контенту",
     "description": "Професійний актор з Хмельницького, спеціалізується на театральних постановках та кіноролях. Має унікальний стиль та здатність передавати глибокі емоції через акторську майстерність.",
-    "profileImage": "/images/personal/profile_1756198219904.jpg",
+    "profileImage": "/roman-syniuk-portfolio/images/personal/profile_1756198219904.jpg",
     "stats": {
       "roles": "50",
       "experience": "10",
@@ -120,175 +120,175 @@
         "id": 1,
         "title": "Театральна постановка",
         "category": "theater",
-        "image": "/images/theater/portfolio_1756197872223.jpg",
+        "image": "/roman-syniuk-portfolio/images/theater/portfolio_1756197872223.jpg",
         "description": "Роль у драматичній постановці"
       },
       {
         "id": 2,
         "title": "Професійна фотосесія",
         "category": "photo",
-        "image": "/images/photo/489001542_9223976974398393_6416781883639698894_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/photo/489001542_9223976974398393_6416781883639698894_n.jpg",
         "description": "Професійні фотографії для портфоліо"
       },
       {
         "id": 3,
         "title": "Кінопроект",
         "category": "cinema",
-        "image": "/images/cinema/502563949_9775588165903935_1130245226910973278_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/cinema/502563949_9775588165903935_1130245226910973278_n.jpg",
         "description": "Участь у короткометражному фільмі"
       },
       {
         "id": 4,
         "title": "Фотосесія в стилі",
         "category": "photo",
-        "image": "/images/photo/489533252_9223976987731725_8138271077853880824_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/photo/489533252_9223976987731725_8138271077853880824_n.jpg",
         "description": "Стильова фотосесія для портфоліо"
       },
       {
         "id": 9,
         "title": "Артистична фотосесія",
         "category": "photo",
-        "image": "/images/photo/488898015_9223976954398395_686874816004575265_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/photo/488898015_9223976954398395_686874816004575265_n.jpg",
         "description": "Артистичні фотографії для портфоліо"
       },
       {
         "id": 10,
         "title": "Професійний портрет",
         "category": "photo",
-        "image": "/images/photo/489786150_9223976714398419_5218568215406962333_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/photo/489786150_9223976714398419_5218568215406962333_n.jpg",
         "description": "Професійний портрет актора"
       },
       {
         "id": 11,
         "title": "Стильова зйомка",
         "category": "photo",
-        "image": "/images/photo/489528509_9223976567731767_1399469081579792776_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/photo/489528509_9223976567731767_1399469081579792776_n.jpg",
         "description": "Стильова зйомка для портфоліо"
       },
       {
         "id": 12,
         "title": "Емоційна фотосесія",
         "category": "photo",
-        "image": "/images/photo/489626987_9223976964398394_3227637930372123074_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/photo/489626987_9223976964398394_3227637930372123074_n.jpg",
         "description": "Емоційна фотосесія з передачею характеру"
       },
       {
         "id": 13,
         "title": "Артистичний образ",
         "category": "photo",
-        "image": "/images/photo/489964519_9223976914398399_2091122919688834600_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/photo/489964519_9223976914398399_2091122919688834600_n.jpg",
         "description": "Артистичний образ для портфоліо"
       },
       {
         "id": 14,
         "title": "Портретна зйомка",
         "category": "photo",
-        "image": "/images/photo/489564386_9223976651065092_2511012503162684158_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/photo/489564386_9223976651065092_2511012503162684158_n.jpg",
         "description": "Портретна зйомка в природному стилі"
       },
       {
         "id": 15,
         "title": "Фінальна фотосесія",
         "category": "photo",
-        "image": "/images/photo/490029545_9223976921065065_1100188039066676209_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/photo/490029545_9223976921065065_1100188039066676209_n.jpg",
         "description": "Фінальна фотосесія для портфоліо"
       },
       {
         "id": 5,
         "title": "Театральна роль",
         "category": "theater",
-        "image": "/images/theater/portfolio_1756198046158.jpg",
+        "image": "/roman-syniuk-portfolio/images/theater/portfolio_1756198046158.jpg",
         "description": "Виконання театральної ролі"
       },
       {
         "id": 6,
         "title": "Кіно зйомки",
         "category": "cinema",
-        "image": "/images/cinema/508414009_9775588149237270_5177472119394332447_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/cinema/508414009_9775588149237270_5177472119394332447_n.jpg",
         "description": "Робота на кіно зйомках"
       },
       {
         "id": 7,
         "title": "Портретна фотосесія",
         "category": "photo",
-        "image": "/images/photo/489115963_9223976977731726_8079921467189846628_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/photo/489115963_9223976977731726_8079921467189846628_n.jpg",
         "description": "Портретні фотографії"
       },
       {
         "id": 8,
         "title": "Сценічне мистецтво",
         "category": "theater",
-        "image": "/images/theater/portfolio_1756200976828.jpg",
+        "image": "/roman-syniuk-portfolio/images/theater/portfolio_1756200976828.jpg",
         "description": "Сценічне мистецтво та пластика"
       },
       {
         "id": 16,
         "title": "Театральна роль",
         "category": "theater",
-        "image": "/images/theater/492903577_9329654090497347_8744030335944556986_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/theater/492903577_9329654090497347_8744030335944556986_n.jpg",
         "description": "Виконання театральної ролі"
       },
       {
         "id": 17,
         "title": "Сценічна постановка",
         "category": "theater",
-        "image": "/images/theater/492464074_9329654060497350_6217935228678482573_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/theater/492464074_9329654060497350_6217935228678482573_n.jpg",
         "description": "Участь у сценічній постановці"
       },
       {
         "id": 18,
         "title": "Театральна композиція",
         "category": "theater",
-        "image": "/images/theater/portfolio_1756201129876.jpg",
+        "image": "/roman-syniuk-portfolio/images/theater/portfolio_1756201129876.jpg",
         "description": "Театральна композиція та пластика"
       },
       {
         "id": 19,
         "title": "Сценічний образ",
         "category": "theater",
-        "image": "/images/theater/492467847_9329654100497346_5859143607088184559_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/theater/492467847_9329654100497346_5859143607088184559_n.jpg",
         "description": "Створення сценічного образу"
       },
       {
         "id": 20,
         "title": "Театральна сцена",
         "category": "theater",
-        "image": "/images/theater/492004700_9329654113830678_7770632857348615682_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/theater/492004700_9329654113830678_7770632857348615682_n.jpg",
         "description": "Робота на театральній сцені"
       },
       {
         "id": 21,
         "title": "Кіно зйомки",
         "category": "cinema",
-        "image": "/images/cinema/509422351_9775588122570606_7541077029201736261_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/cinema/509422351_9775588122570606_7541077029201736261_n.jpg",
         "description": "Участь у кіно зйомках"
       },
       {
         "id": 22,
         "title": "Кіно роль",
         "category": "cinema",
-        "image": "/images/cinema/509195811_9775587895903962_2699983695742559398_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/cinema/509195811_9775587895903962_2699983695742559398_n.jpg",
         "description": "Виконання ролі в кіно"
       },
       {
         "id": 23,
         "title": "Кіно сцена",
         "category": "cinema",
-        "image": "/images/cinema/509881855_9775587875903964_5887355970291481662_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/cinema/509881855_9775587875903964_5887355970291481662_n.jpg",
         "description": "Робота в кіно сцені"
       },
       {
         "id": 24,
         "title": "Кіно проект",
         "category": "cinema",
-        "image": "/images/cinema/502567445_9775587842570634_7805079297458489528_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/cinema/502567445_9775587842570634_7805079297458489528_n.jpg",
         "description": "Участь у кіно проекті"
       },
       {
         "id": 25,
         "title": "Кіно зйомка",
         "category": "cinema",
-        "image": "/images/cinema/508677688_9775588182570600_8483250354817806133_n.jpg",
+        "image": "/roman-syniuk-portfolio/images/cinema/508677688_9775588182570600_8483250354817806133_n.jpg",
         "description": "Робота на кіно зйомках"
       }
     ]
