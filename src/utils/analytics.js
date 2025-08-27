@@ -17,8 +17,8 @@ const ANALYTICS_CONFIG = {
   // Debug mode
   DEBUG: import.meta.env.DEV,
   
-  // Відключаємо відправку на сервер для dev/preview
-  DISABLE_SERVER_TRACKING: import.meta.env.DEV || window.location.hostname === 'localhost'
+  // Відключаємо відправку на сервер для dev/preview та GitHub Pages
+  DISABLE_SERVER_TRACKING: import.meta.env.DEV || window.location.hostname === 'localhost' || window.location.hostname.includes('github.io')
 }
 
 // Ініціалізація Google Analytics 4
