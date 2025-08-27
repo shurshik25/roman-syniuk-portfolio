@@ -2,20 +2,20 @@
   "name": "Портфоліо актора - Рома Сінук",
   "short_name": "Portfolio",
   "description": "Професійне портфоліо актора з галереєю робіт, відео-репертуаром та контактною інформацією",
-  "start_url": "/roman-syniuk-portfolio/",
+  "start_url": "/",
   "display": "standalone",
   "display_override": ["window-controls-overlay"],
   "background_color": "#ffffff",
   "theme_color": "#8b5cf6",
   "orientation": "portrait-primary",
-  "scope": "/roman-syniuk-portfolio/",
+  "scope": "/",
   "lang": "uk",
   "dir": "ltr",
   "categories": ["entertainment", "portfolio", "business"],
 
   "icons": [
     {
-      "src": "/roman-syniuk-portfolio/favicon.svg",
+      "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
@@ -26,19 +26,19 @@
       "name": "Портфоліо",
       "short_name": "Роботи",
       "description": "Переглянути галерею робіт",
-      "url": "/roman-syniuk-portfolio/#portfolio"
+      "url": "/#portfolio"
     },
     {
       "name": "Відео-репертуар",
       "short_name": "Відео",
       "description": "Переглянути відео виступів",
-      "url": "/roman-syniuk-portfolio/#repertoire"
+      "url": "/#repertoire"
     },
     {
       "name": "Контакти",
       "short_name": "Зв'язок",
       "description": "Зв'язатися з актором",
-      "url": "/roman-syniuk-portfolio/#contact"
+      "url": "/#contact"
     }
   ],
   "related_applications": [],

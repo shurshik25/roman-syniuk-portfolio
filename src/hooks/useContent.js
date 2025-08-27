@@ -106,7 +106,7 @@ export const useContent = () => {
 
       // Якщо немає в localStorage, пробуємо завантажити з файлу
       try {
-        const response = await fetch('/content.json')
+        const response = await fetch('/roman-syniuk-portfolio/content.json')
         if (response.ok) {
           const contentData = await response.json()
           console.log('useContent hook - завантажено з файлу:', contentData)
