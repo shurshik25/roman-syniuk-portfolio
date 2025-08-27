@@ -170,17 +170,35 @@ export const useContent = () => {
   // Функція для оновлення масивів
   const updateArrayContent = (field, index, value) => {
     setContent(prev => {
-      // Перевіряємо, чи існує секція та поле
-      if (!prev.portfolio || !prev.portfolio[field] || !Array.isArray(prev.portfolio[field])) {
-        console.warn(`updateArrayContent: ${field} не є масивом або не існує`)
+      // Визначаємо, в якій секції знаходиться поле
+      let section = null
+      let sectionKey = null
+      
+      // Перевіряємо різні секції
+      if (prev.portfolio && prev.portfolio[field] && Array.isArray(prev.portfolio[field])) {
+        section = 'portfolio'
+        sectionKey = field
+      } else if (prev.contact && prev.contact[field] && Array.isArray(prev.contact[field])) {
+        section = 'contact'
+        sectionKey = field
+      } else if (prev.about && prev.about[field] && Array.isArray(prev.about[field])) {
+        section = 'about'
+        sectionKey = field
+      } else if (prev.videoRepertoire && prev.videoRepertoire[field] && Array.isArray(prev.videoRepertoire[field])) {
+        section = 'videoRepertoire'
+        sectionKey = field
+      }
+      
+      if (!section) {
+        console.warn(`updateArrayContent: ${field} не знайдено в жодній секції або не є масивом`)
         return prev
       }
 
       return {
         ...prev,
-        portfolio: {
-          ...prev.portfolio,
-          [field]: prev.portfolio[field].map((item, i) =>
+        [section]: {
+          ...prev[section],
+          [sectionKey]: prev[section][sectionKey].map((item, i) =>
             i === index ? { ...item, ...value } : item
           ),
         },
@@ -191,33 +209,46 @@ export const useContent = () => {
   // Функція для додавання нового елемента в масив
   const addArrayItem = (field, newItem) => {
     setContent(prev => {
-      // Перевіряємо, чи існує секція та поле
-      if (!prev.portfolio) {
-        console.warn(`addArrayItem: секція portfolio не існує`)
+      // Визначаємо, в якій секції знаходиться поле
+      let section = null
+      
+      // Перевіряємо різні секції
+      if (prev.portfolio && (prev.portfolio[field] || field === 'works' || field === 'categories')) {
+        section = 'portfolio'
+      } else if (prev.contact && (prev.contact[field] || field === 'projectAvailability')) {
+        section = 'contact'
+      } else if (prev.about && (prev.about[field] || field === 'education' || field === 'experience' || field === 'skills' || field === 'achievements')) {
+        section = 'about'
+      } else if (prev.videoRepertoire && (prev.videoRepertoire[field] || field === 'videos' || field === 'categories')) {
+        section = 'videoRepertoire'
+      }
+      
+      if (!section) {
+        console.warn(`addArrayItem: ${field} не знайдено в жодній секції`)
         return prev
       }
 
-      if (!prev.portfolio[field]) {
+      if (!prev[section][field]) {
         // Якщо поле не існує, створюємо його як масив
         return {
           ...prev,
-          portfolio: {
-            ...prev.portfolio,
+          [section]: {
+            ...prev[section],
             [field]: [newItem],
           },
         }
       }
 
-      if (!Array.isArray(prev.portfolio[field])) {
+      if (!Array.isArray(prev[section][field])) {
         console.warn(`addArrayItem: ${field} не є масивом`)
         return prev
       }
 
       return {
         ...prev,
-        portfolio: {
-          ...prev.portfolio,
-          [field]: [...prev.portfolio[field], newItem],
+        [section]: {
+          ...prev[section],
+          [field]: [...prev[section][field], newItem],
         },
       }
     })
@@ -226,17 +257,35 @@ export const useContent = () => {
   // Функція для видалення елемента з масиву
   const removeArrayItem = (field, index) => {
     setContent(prev => {
-      // Перевіряємо, чи існує секція та поле
-      if (!prev.portfolio || !prev.portfolio[field] || !Array.isArray(prev.portfolio[field])) {
-        console.warn(`removeArrayItem: ${field} не є масивом або не існує`)
+      // Визначаємо, в якій секції знаходиться поле
+      let section = null
+      let sectionKey = null
+      
+      // Перевіряємо різні секції
+      if (prev.portfolio && prev.portfolio[field] && Array.isArray(prev.portfolio[field])) {
+        section = 'portfolio'
+        sectionKey = field
+      } else if (prev.contact && prev.contact[field] && Array.isArray(prev.contact[field])) {
+        section = 'contact'
+        sectionKey = field
+      } else if (prev.about && prev.about[field] && Array.isArray(prev.about[field])) {
+        section = 'about'
+        sectionKey = field
+      } else if (prev.videoRepertoire && prev.videoRepertoire[field] && Array.isArray(prev.videoRepertoire[field])) {
+        section = 'videoRepertoire'
+        sectionKey = field
+      }
+      
+      if (!section) {
+        console.warn(`removeArrayItem: ${field} не знайдено в жодній секції або не є масивом`)
         return prev
       }
 
       return {
         ...prev,
-        portfolio: {
-          ...prev.portfolio,
-          [field]: prev.portfolio[field].filter((_, i) => i !== index),
+        [section]: {
+          ...prev[section],
+          [sectionKey]: prev[section][sectionKey].filter((_, i) => i !== index),
         },
       }
     })
