@@ -1,0 +1,940 @@
+/* Admin Panel Styles */
+:root {
+  /* Color variables for better contrast */
+  --admin-text-primary: #1f2937; /* Dark gray for primary text */
+  --admin-text-secondary: #4b5563; /* Medium gray for secondary text */
+  --admin-text-muted: #6b7280; /* Light gray for muted text */
+  --admin-text-light: #9ca3af; /* Very light gray for light text */
+  --admin-bg-primary: #ffffff; /* White background */
+  --admin-bg-secondary: #f9fafb; /* Light gray background */
+  --admin-bg-tertiary: #f3f4f6; /* Medium gray background */
+  --admin-border-light: #e5e7eb; /* Light border */
+  --admin-border-medium: #d1d5db; /* Medium border */
+  --admin-accent: #8b5cf6; /* Purple accent */
+  --admin-accent-light: #a78bfa; /* Light purple */
+  --admin-accent-dark: #7c3aed; /* Dark purple */
+  --admin-success: #059669; /* Green for success */
+  --admin-warning: #d97706; /* Orange for warning */
+  --admin-error: #dc2626; /* Red for error */
+}
+
+.admin-panel-container {
+  max-height: 100vh;
+  overflow: hidden;
+  color: var(--admin-text-primary);
+  background: var(--admin-bg-primary);
+  z-index: 9999;
+  position: relative;
+}
+
+/* Ensure admin panel is always on top */
+[data-testid="admin-panel"] {
+  z-index: 9999 !important;
+}
+
+/* Modern scrollbar styling */
+.admin-panel-container *::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.admin-panel-container *::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
+}
+
+.admin-panel-container *::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 2px;
+}
+
+.admin-panel-container *::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.5);
+}
+
+/* Override any z-index from main navigation */
+body.admin-panel-open {
+  overflow: hidden;
+}
+
+body.admin-panel-open nav,
+body.admin-panel-open header,
+body.admin-panel-open .navbar {
+  z-index: 1000 !important;
+}
+
+/* Custom scrollbar */
+.admin-panel-container *::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.admin-panel-container *::-webkit-scrollbar-track {
+  background: var(--admin-bg-tertiary);
+  border-radius: 3px;
+}
+
+.admin-panel-container *::-webkit-scrollbar-thumb {
+  background: var(--admin-border-medium);
+  border-radius: 3px;
+}
+
+.admin-panel-container *::-webkit-scrollbar-thumb:hover {
+  background: var(--admin-text-muted);
+}
+
+/* Focus styles */
+.admin-panel-container input:focus,
+.admin-panel-container textarea:focus,
+.admin-panel-container select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-in-right {
+  animation: slideInRight 0.3s ease-in-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Loading animation */
+.loading-spinner {
+  border: 2px solid var(--admin-bg-tertiary);
+  border-top: 2px solid var(--admin-accent);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Form styles */
+.form-field-group {
+  position: relative;
+}
+
+.form-field-group:hover .form-field-help {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.form-field-help {
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Modern button hover effects */
+.admin-btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-panel-container button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-panel-container button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.admin-panel-container button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.admin-btn:hover::before {
+  left: 100%;
+}
+
+/* Card styles */
+.admin-card {
+  background: var(--admin-bg-primary);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.admin-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Search highlight */
+.search-highlight {
+  background: linear-gradient(120deg, #fef3c7 0%, #fde68a 100%);
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 500;
+  color: var(--admin-text-primary);
+}
+
+/* Status indicators */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.status-dot.green {
+  background-color: var(--admin-success);
+  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.3);
+}
+
+.status-dot.orange {
+  background-color: var(--admin-warning);
+  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.3);
+}
+
+.status-dot.red {
+  background-color: var(--admin-error);
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.3);
+}
+
+/* Drag and drop styles */
+.drag-over {
+  border-color: var(--admin-accent) !important;
+  background-color: rgba(139, 92, 246, 0.05) !important;
+}
+
+.drag-over::after {
+  content: 'Відпустіть для завантаження';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--admin-accent);
+  font-weight: 600;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .admin-panel-container {
+    padding: env(safe-area-inset-top, 8px) env(safe-area-inset-right, 8px) env(safe-area-inset-bottom, 8px) env(safe-area-inset-left, 8px);
+    margin: 0;
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height for mobile */
+    border-radius: 0;
+  }
+
+  .admin-panel-container .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px !important;
+    height: 100vh;
+    height: 100dvh;
+    z-index: 10001;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+  }
+
+  .admin-panel-container .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .admin-panel-container .content {
+    flex: 1;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    margin-left: 0;
+  }
+
+  /* Mobile overlay for sidebar */
+  .mobile-sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mobile-sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Better content scrolling */
+  .admin-panel-container .overflow-y-auto {
+    padding: 6px 10px !important;
+  }
+
+  /* Improve grid layout */
+  .admin-panel-container .grid-cols-1,
+  .admin-panel-container .grid-cols-2,
+  .admin-panel-container .grid-cols-3,
+  .admin-panel-container .grid-cols-4 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-panel-container .md\\:grid-cols-2,
+  .admin-panel-container .md\\:grid-cols-3,
+  .admin-panel-container .lg\\:grid-cols-3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Better touch feedback */
+  .admin-panel-container .sidebar button:active {
+    transform: scale(0.98);
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* Enhanced mobile styles */
+@media (max-width: 480px) {
+  .admin-panel-container {
+    padding: env(safe-area-inset-top, 8px) env(safe-area-inset-right, 8px) env(safe-area-inset-bottom, 8px) env(safe-area-inset-left, 8px);
+  }
+
+  .admin-panel-container .sidebar {
+    width: 280px !important;
+  }
+
+  /* Optimize sidebar for mobile */
+  .admin-panel-container .sidebar nav {
+    padding: 6px !important;
+  }
+
+  .admin-panel-container .sidebar nav .space-y-1 > * + * {
+    margin-top: 6px !important;
+  }
+
+  .admin-panel-container .sidebar button {
+    padding: 8px !important;
+    min-height: 44px !important;
+    border-radius: 8px !important;
+  }
+
+  .admin-panel-container .sidebar button span.font-medium {
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+  }
+
+  .admin-panel-container .sidebar .text-lg {
+    font-size: 18px !important;
+  }
+
+  /* Improve touch targets */
+  .admin-panel-container button {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px 16px;
+    font-size: 15px;
+    border-radius: 10px;
+    line-height: 1.3;
+  }
+
+  .admin-panel-container button.small {
+    min-height: 36px;
+    min-width: 36px;
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .admin-panel-container input,
+  .admin-panel-container textarea,
+  .admin-panel-container select {
+    min-height: 44px;
+    padding: 12px 14px;
+    font-size: 16px; /* Prevent zoom on iOS */
+    border-radius: 10px;
+    border-width: 1px;
+    line-height: 1.4;
+  }
+
+  /* Improve checkbox and radio touch targets */
+  .admin-panel-container input[type="checkbox"],
+  .admin-panel-container input[type="radio"] {
+    min-height: 24px;
+    min-width: 24px;
+    transform: scale(1.2);
+  }
+
+  /* Improve slider touch targets */
+  .admin-panel-container input[type="range"] {
+    min-height: 48px;
+  }
+
+  /* Better file upload areas */
+  .admin-panel-container input[type="file"] {
+    min-height: 60px;
+    padding: 20px;
+  }
+
+  /* Stack elements vertically */
+  .admin-panel-container .flex-row {
+    flex-direction: column !important;
+  }
+
+  .admin-panel-container .space-x-4 > * + * {
+    margin-left: 0 !important;
+    margin-top: 12px;
+  }
+
+  /* Improve form layout */
+  .admin-panel-container .grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+
+  /* Make modals full screen on mobile */
+  .admin-panel-container .modal {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+
+  /* Improve scrolling on mobile */
+  .admin-panel-container .content {
+    overflow-x: hidden;
+  }
+
+  .admin-panel-container .overflow-y-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Better spacing for content */
+  .admin-panel-container .p-6 {
+    padding: 12px !important;
+  }
+
+  .admin-panel-container .p-4 {
+    padding: 10px !important;
+  }
+
+  .admin-panel-container .p-3 {
+    padding: 8px !important;
+  }
+
+  /* Improve form sections spacing */
+  .admin-panel-container .space-y-8 > * + * {
+    margin-top: 20px !important;
+  }
+
+  .admin-panel-container .space-y-6 > * + * {
+    margin-top: 16px !important;
+  }
+
+  .admin-panel-container .space-y-4 > * + * {
+    margin-top: 12px !important;
+  }
+
+  .admin-panel-container .space-y-3 > * + * {
+    margin-top: 10px !important;
+  }
+
+  .admin-panel-container .space-y-2 > * + * {
+    margin-top: 8px !important;
+  }
+
+  /* Improve grid spacing */
+  .admin-panel-container .gap-6 {
+    gap: 12px !important;
+  }
+
+  .admin-panel-container .gap-4 {
+    gap: 10px !important;
+  }
+
+  .admin-panel-container .gap-3 {
+    gap: 8px !important;
+  }
+
+  /* Better image upload areas */
+  .admin-panel-container .border-dashed {
+    min-height: 120px;
+    padding: 20px;
+  }
+
+  /* Improve tab navigation */
+  .admin-panel-container .tab-buttons {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .admin-panel-container .tab-buttons button {
+    flex: 1;
+    min-width: auto;
+    white-space: nowrap;
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  /* Improve content area */
+  .admin-panel-container .content .overflow-y-auto {
+    padding: 8px !important;
+  }
+
+  /* Better header spacing */
+  .admin-panel-container .flex.items-center.justify-between {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .admin-panel-container .flex.items-center.justify-between > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Improve typography */
+  .admin-panel-container h1 {
+    font-size: 20px !important;
+    line-height: 1.3 !important;
+  }
+
+  .admin-panel-container h2 {
+    font-size: 18px !important;
+    line-height: 1.3 !important;
+  }
+
+  .admin-panel-container h3 {
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+  }
+
+  .admin-panel-container h4 {
+    font-size: 15px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Better form layout */
+  .admin-panel-container .form-field label {
+    font-size: 14px !important;
+    margin-bottom: 4px !important;
+  }
+
+  /* Improve textarea */
+  .admin-panel-container textarea {
+    min-height: 80px !important;
+    resize: vertical;
+  }
+
+  /* Better card spacing */
+  .admin-panel-container .bg-white.border.rounded-xl {
+    padding: 12px !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* Add touch feedback */
+  .admin-panel-container button:active {
+    transform: scale(0.96);
+    transition: transform 0.1s ease;
+  }
+
+  /* Improve swipe gestures support */
+  .admin-panel-container {
+    touch-action: manipulation;
+  }
+
+  /* Prevent text selection on touch */
+  .admin-panel-container button,
+  .admin-panel-container .nav-button {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Better focus indicators for keyboard navigation */
+  .admin-panel-container button:focus-visible {
+    outline: 3px solid #8b5cf6;
+    outline-offset: 2px;
+  }
+
+  /* Improve text readability */
+  .admin-panel-container {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}
+
+/* Dark mode support (future enhancement) */
+@media (prefers-color-scheme: dark) {
+  .admin-panel-container {
+    color-scheme: dark;
+  }
+}
+
+/* Print styles */
+@media print {
+  .admin-panel-container {
+    display: none !important;
+  }
+}
+
+/* Accessibility improvements */
+.admin-panel-container *:focus-visible {
+  outline: 2px solid var(--admin-accent);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .admin-panel-container * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Enhanced contrast for better readability */
+.admin-panel-container h1,
+.admin-panel-container h2,
+.admin-panel-container h3,
+.admin-panel-container h4,
+.admin-panel-container h5,
+.admin-panel-container h6 {
+  color: var(--admin-text-primary);
+}
+
+.admin-panel-container p,
+.admin-panel-container span,
+.admin-panel-container div {
+  color: var(--admin-text-secondary);
+}
+
+.admin-panel-container label {
+  color: var(--admin-text-primary);
+  font-weight: 500;
+}
+
+.admin-panel-container input::placeholder,
+.admin-panel-container textarea::placeholder {
+  color: var(--admin-text-light);
+}
+
+.admin-panel-container .text-gray-500 {
+  color: var(--admin-text-muted) !important;
+}
+
+.admin-panel-container .text-gray-600 {
+  color: var(--admin-text-secondary) !important;
+}
+
+.admin-panel-container .text-gray-700 {
+  color: var(--admin-text-primary) !important;
+}
+
+.admin-panel-container .text-gray-800 {
+  color: var(--admin-text-primary) !important;
+}
+
+.admin-panel-container .text-gray-900 {
+  color: var(--admin-text-primary) !important;
+}
+
+/* Ensure form inputs have proper contrast */
+.admin-panel-container input,
+.admin-panel-container textarea,
+.admin-panel-container select {
+  color: var(--admin-text-primary);
+  background: var(--admin-bg-primary);
+  border-color: var(--admin-border-medium);
+}
+
+.admin-panel-container input:focus,
+.admin-panel-container textarea:focus,
+.admin-panel-container select:focus {
+  border-color: var(--admin-accent);
+  background: var(--admin-bg-primary);
+}
+
+/* Better contrast for info boxes */
+.admin-panel-container .bg-blue-50 {
+  background: #eff6ff !important;
+}
+
+.admin-panel-container .text-blue-800 {
+  color: #1e40af !important;
+}
+
+.admin-panel-container .text-blue-900 {
+  color: #1e3a8a !important;
+}
+
+.admin-panel-container .bg-gray-50 {
+  background: #f9fafb !important;
+}
+
+.admin-panel-container .text-gray-600 {
+  color: var(--admin-text-secondary) !important;
+}
+
+.admin-panel-container .text-gray-900 {
+  color: var(--admin-text-primary) !important;
+}
+
+/* Additional contrast improvements */
+.admin-panel-container .text-gray-400 {
+  color: var(--admin-text-light) !important;
+}
+
+.admin-panel-container .text-gray-500 {
+  color: var(--admin-text-muted) !important;
+}
+
+/* Ensure buttons have proper contrast */
+.admin-panel-container button {
+  color: var(--admin-text-primary);
+}
+
+.admin-panel-container button:disabled {
+  color: var(--admin-text-light);
+  opacity: 0.6;
+}
+
+/* Improve sidebar contrast */
+.admin-panel-container .sidebar {
+  background: var(--admin-bg-secondary);
+  border-color: var(--admin-border-light);
+}
+
+.admin-panel-container .sidebar button {
+  color: var(--admin-text-secondary);
+}
+
+.admin-panel-container .sidebar button:hover {
+  color: var(--admin-text-primary);
+  background: var(--admin-bg-tertiary);
+}
+
+/* Improve content area contrast */
+.admin-panel-container .content {
+  background: var(--admin-bg-primary);
+  color: var(--admin-text-primary);
+}
+
+/* Improve form field contrast */
+.admin-panel-container .form-field {
+  color: var(--admin-text-primary);
+}
+
+.admin-panel-container .form-field input,
+.admin-panel-container .form-field textarea,
+.admin-panel-container .form-field select {
+  color: var(--admin-text-primary);
+  background: var(--admin-bg-primary);
+  border-color: var(--admin-border-medium);
+}
+
+.admin-panel-container .form-field input:focus,
+.admin-panel-container .form-field textarea:focus,
+.admin-panel-container .form-field select:focus {
+  border-color: var(--admin-accent);
+  background: var(--admin-bg-primary);
+  color: var(--admin-text-primary);
+}
+
+/* Improve placeholder contrast */
+.admin-panel-container input::placeholder,
+.admin-panel-container textarea::placeholder {
+  color: var(--admin-text-light);
+  opacity: 0.8;
+}
+
+/* Improve help text contrast */
+.admin-panel-container .help-text,
+.admin-panel-container .text-sm.text-gray-500,
+.admin-panel-container .text-sm.text-gray-600 {
+  color: var(--admin-text-secondary) !important;
+}
+
+/* Improve error text contrast */
+.admin-panel-container .text-red-600,
+.admin-panel-container .text-red-500 {
+  color: var(--admin-error) !important;
+}
+
+/* Improve success text contrast */
+.admin-panel-container .text-green-600,
+.admin-panel-container .text-green-500 {
+  color: var(--admin-success) !important;
+}
+
+/* Improve warning text contrast */
+.admin-panel-container .text-yellow-600,
+.admin-panel-container .text-yellow-500 {
+  color: var(--admin-warning) !important;
+}
+
+/* Improve info text contrast */
+.admin-panel-container .text-blue-600,
+.admin-panel-container .text-blue-500 {
+  color: #2563eb !important;
+}
+
+/* Improve purple text contrast */
+.admin-panel-container .text-purple-600,
+.admin-panel-container .text-purple-500 {
+  color: var(--admin-accent) !important;
+}
+
+.admin-panel-container .text-purple-700 {
+  color: var(--admin-accent-dark) !important;
+}
+
+.admin-panel-container .text-purple-800 {
+  color: var(--admin-accent-dark) !important;
+}
+
+/* Extra small mobile devices */
+@media (max-width: 360px) {
+  .admin-panel-container {
+    padding: env(safe-area-inset-top, 4px) env(safe-area-inset-right, 4px) env(safe-area-inset-bottom, 4px) env(safe-area-inset-left, 4px);
+  }
+
+  .admin-panel-container .sidebar {
+    width: 260px !important;
+  }
+
+  /* Ultra compact sidebar for very small screens */
+  .admin-panel-container .sidebar nav {
+    padding: 4px !important;
+  }
+
+  .admin-panel-container .sidebar nav .space-y-1 > * + * {
+    margin-top: 4px !important;
+  }
+
+  .admin-panel-container .sidebar button {
+    padding: 6px !important;
+    min-height: 40px !important;
+    border-radius: 6px !important;
+  }
+
+  .admin-panel-container .sidebar button span.font-medium {
+    font-size: 15px !important;
+    line-height: 1.2 !important;
+  }
+
+  .admin-panel-container .sidebar .text-lg {
+    font-size: 17px !important;
+  }
+
+  /* Ultra compact spacing */
+  .admin-panel-container .p-6 {
+    padding: 8px !important;
+  }
+
+  .admin-panel-container .p-4 {
+    padding: 6px !important;
+  }
+
+  .admin-panel-container .space-y-8 > * + * {
+    margin-top: 16px !important;
+  }
+
+  .admin-panel-container .space-y-6 > * + * {
+    margin-top: 12px !important;
+  }
+
+  .admin-panel-container .space-y-4 > * + * {
+    margin-top: 8px !important;
+  }
+
+  /* Ultra compact form elements */
+  .admin-panel-container input,
+  .admin-panel-container textarea,
+  .admin-panel-container select {
+    min-height: 40px;
+    padding: 10px 12px;
+    font-size: 16px;
+  }
+
+  .admin-panel-container button {
+    min-height: 40px;
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  /* Compact typography */
+  .admin-panel-container h1 {
+    font-size: 18px !important;
+  }
+
+  .admin-panel-container h2 {
+    font-size: 16px !important;
+  }
+
+  .admin-panel-container h3 {
+    font-size: 15px !important;
+  }
+
+  .admin-panel-container h4 {
+    font-size: 14px !important;
+  }
+
+  /* Ultra compact cards */
+  .admin-panel-container .bg-white.border.rounded-xl {
+    padding: 8px !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* Compact tabs */
+  .admin-panel-container .tab-buttons button {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+}

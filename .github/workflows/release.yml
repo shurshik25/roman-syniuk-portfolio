@@ -1,0 +1,100 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: |
+          npm run lint
+          npm run test:coverage
+          npm run test:e2e
+
+      - name: Build application
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Create production bundle
+        run: |
+          tar -czf portfolio-${{ github.ref_name }}.tar.gz dist/
+          zip -r portfolio-${{ github.ref_name }}.zip dist/
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Простий генератор changelog
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          echo "## Changes in ${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          git log --pretty=format:"- %s (%h)" $(git describe --tags --abbrev=0 HEAD^)..HEAD >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: |
+            ${{ steps.changelog.outputs.CHANGELOG }}
+
+            ### 📦 Downloads
+            - [portfolio-${{ github.ref_name }}.tar.gz](https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/portfolio-${{ github.ref_name }}.tar.gz)
+            - [portfolio-${{ github.ref_name }}.zip](https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/portfolio-${{ github.ref_name }}.zip)
+
+            ### 🚀 Deployment
+            This release has been automatically deployed to production.
+          draft: false
+          prerelease: false
+
+      - name: Upload release assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./portfolio-${{ github.ref_name }}.tar.gz
+          asset_name: portfolio-${{ github.ref_name }}.tar.gz
+          asset_content_type: application/gzip
+
+      - name: Upload release zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./portfolio-${{ github.ref_name }}.zip
+          asset_name: portfolio-${{ github.ref_name }}.zip
+          asset_content_type: application/zip
+
+      - name: Deploy to production
+        run: |
+          echo "🚀 Deploying to production..."
+          # Тут додайте команди для деплою на ваш продакшн сервер

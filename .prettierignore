@@ -1,0 +1,11 @@
+node_modules/
+dist/
+build/
+coverage/
+playwright-report/
+.next/
+.cache/
+*.min.js
+*.min.css
+package-lock.json
+public/

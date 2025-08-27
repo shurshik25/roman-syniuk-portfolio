@@ -1,0 +1,55 @@
+{
+  "name": "Портфоліо актора - Рома Сінук",
+  "short_name": "Portfolio",
+  "description": "Професійне портфоліо актора з галереєю робіт, відео-репертуаром та контактною інформацією",
+  "start_url": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay"],
+  "background_color": "#ffffff",
+  "theme_color": "#8b5cf6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "uk",
+  "dir": "ltr",
+  "categories": ["entertainment", "portfolio", "business"],
+
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Портфоліо",
+      "short_name": "Роботи",
+      "description": "Переглянути галерею робіт",
+      "url": "/#portfolio"
+    },
+    {
+      "name": "Відео-репертуар",
+      "short_name": "Відео",
+      "description": "Переглянути відео виступів",
+      "url": "/#repertoire"
+    },
+    {
+      "name": "Контакти",
+      "short_name": "Зв'язок",
+      "description": "Зв'язатися з актором",
+      "url": "/#contact"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "mailto",
+      "url": "/#contact?action=email&to=%s"
+    }
+  ]
+}
