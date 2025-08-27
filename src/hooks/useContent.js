@@ -125,16 +125,46 @@ export const useContent = () => {
 
   // Функція для оновлення вкладених полів
   const updateNestedContent = (field, subField, value) => {
-    setContent(prev => ({
-      ...prev,
-      contact: {
-        ...prev.contact,
-        [field]: {
-          ...prev.contact[field],
-          [subField]: value,
-        },
-      },
-    }))
+    console.log('updateNestedContent викликано:', { field, subField, value })
+    
+    setContent(prev => {
+      // Розбиваємо subField на частини (наприклад: "facebook.url" -> ["facebook", "url"])
+      const subFieldParts = subField.split('.')
+      console.log('subFieldParts:', subFieldParts)
+      
+      if (subFieldParts.length === 1) {
+        // Простий випадок: field.subField
+        console.log('Простий випадок:', { field, subField, value })
+        return {
+          ...prev,
+          contact: {
+            ...prev.contact,
+            [field]: {
+              ...prev.contact[field],
+              [subField]: value,
+            },
+          },
+        }
+      } else {
+        // Складний випадок: field.subField1.subField2 (наприклад: "facebook.url")
+        const [firstPart, secondPart] = subFieldParts
+        console.log('Складний випадок:', { field, firstPart, secondPart, value })
+        
+        return {
+          ...prev,
+          contact: {
+            ...prev.contact,
+            [field]: {
+              ...prev.contact[field],
+              [firstPart]: {
+                ...prev.contact[field]?.[firstPart],
+                [secondPart]: value,
+              },
+            },
+          },
+        }
+      }
+    })
   }
 
   // Функція для оновлення масивів
