@@ -34,18 +34,6 @@ const ContactSection = ({
   }
 
   const handleSocialChange = (platform, field, value) => {
-    // Спочатку тестуємо з локальним станом
-    if (localSocialData) {
-      setLocalSocialData(prev => ({
-        ...prev,
-        [platform]: {
-          ...prev[platform],
-          [field]: value
-        }
-      }))
-    }
-
-    // Потім викликаємо основну функцію
     updateNestedContent('social', `${platform}.${field}`, value)
     addToHistory('edit', `Оновлено ${platform} в соціальних мережах`)
   }

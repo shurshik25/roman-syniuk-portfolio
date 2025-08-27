@@ -28,7 +28,7 @@ const AdminContent = ({
         return (
           <HeroSection
             data={content.hero}
-            updateContent={(field, value) => updateContent('hero', field, value)}
+            updateContent={updateContent}
             onImageUpload={onImageUpload}
             addToHistory={addToHistory}
           />
@@ -38,15 +38,11 @@ const AdminContent = ({
         return (
           <AboutSection
             data={content.about}
-            updateContent={(field, value) => updateContent('about', field, value)}
-            updateNestedContent={(field, subField, value) =>
-              updateNestedContent('about', field, subField, value)
-            }
-            updateArrayContent={(field, index, value) =>
-              updateArrayContent('about', field, index, value)
-            }
-            addArrayItem={(field, item) => addArrayItem('about', field, item)}
-            removeArrayItem={(field, index) => removeArrayItem('about', field, index)}
+            updateContent={updateContent}
+            updateNestedContent={updateNestedContent}
+            updateArrayContent={updateArrayContent}
+            addArrayItem={addArrayItem}
+            removeArrayItem={removeArrayItem}
             addToHistory={addToHistory}
           />
         )
@@ -57,11 +53,9 @@ const AdminContent = ({
             data={content.portfolio}
             subTab={portfolioSubTab}
             setSubTab={setPortfolioSubTab}
-            updateArrayContent={(field, index, value) =>
-              updateArrayContent('portfolio', field, index, value)
-            }
-            addArrayItem={(field, item) => addArrayItem('portfolio', field, item)}
-            removeArrayItem={(field, index) => removeArrayItem('portfolio', field, index)}
+            updateArrayContent={updateArrayContent}
+            addArrayItem={addArrayItem}
+            removeArrayItem={removeArrayItem}
             onImageUpload={onImageUpload}
             addToHistory={addToHistory}
           />
@@ -73,11 +67,9 @@ const AdminContent = ({
             data={content.videoRepertoire}
             category={videoRepertoireCategory}
             setCategory={setVideoRepertoireCategory}
-            updateArrayContent={(field, index, value) =>
-              updateArrayContent('videoRepertoire', field, index, value)
-            }
-            addArrayItem={(field, item) => addArrayItem('videoRepertoire', field, item)}
-            removeArrayItem={(field, index) => removeArrayItem('videoRepertoire', field, index)}
+            updateArrayContent={updateArrayContent}
+            addArrayItem={addArrayItem}
+            removeArrayItem={removeArrayItem}
             onImageUpload={onImageUpload}
             addToHistory={addToHistory}
           />
@@ -87,13 +79,9 @@ const AdminContent = ({
         return (
           <ContactSection
             data={content.contact}
-            updateContent={(field, value) => updateContent('contact', field, value)}
-            updateNestedContent={(field, subField, value) =>
-              updateNestedContent('contact', field, subField, value)
-            }
-            updateArrayContent={(field, index, value) =>
-              updateArrayContent('contact', field, index, value)
-            }
+            updateContent={updateContent}
+            updateNestedContent={updateNestedContent}
+            updateArrayContent={updateArrayContent}
             addToHistory={addToHistory}
           />
         )

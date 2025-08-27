@@ -1,0 +1,36 @@
+<testsuites id="" name="" tests="8" failures="0" skipped="8" errors="0" time="5.388823">
+<testsuite name="homepage.spec.js" timestamp="2025-08-27T15:32:13.472Z" hostname="chromium" tests="8" failures="0" skipped="8" time="0" errors="0">
+<testcase name="Homepage › should load homepage successfully" classname="homepage.spec.js" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Homepage › should display hero section correctly" classname="homepage.spec.js" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Homepage › should navigate between sections" classname="homepage.spec.js" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Homepage › should be responsive on mobile" classname="homepage.spec.js" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Homepage › should have accessible navigation" classname="homepage.spec.js" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Homepage › should load without JavaScript errors" classname="homepage.spec.js" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Homepage › should have proper meta tags" classname="homepage.spec.js" time="0">
+<skipped>
+</skipped>
+</testcase>
+<testcase name="Homepage › should handle offline state" classname="homepage.spec.js" time="0">
+<skipped>
+</skipped>
+</testcase>
+</testsuite>
+</testsuites>
