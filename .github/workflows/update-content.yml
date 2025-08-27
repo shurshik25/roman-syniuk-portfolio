@@ -16,9 +16,15 @@ on:
 jobs:
   update-content:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -39,12 +45,12 @@ jobs:
           
       - name: Commit and push changes
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git add docs/
           git add public/content.json
-          git commit -m "Auto-update: Rebuild and deploy with latest content"
-          git push
+          git commit -m "Auto-update: Rebuild and deploy with latest content" || exit 0
+          git push origin main
           
       - name: Deploy to GitHub Pages
         run: |

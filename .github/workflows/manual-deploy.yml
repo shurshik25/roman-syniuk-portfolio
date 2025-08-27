@@ -11,10 +11,16 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -34,11 +40,11 @@ jobs:
           
       - name: Commit and push
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git add docs/
-          git commit -m "Manual deploy: ${{ github.event.inputs.message }}"
-          git push
+          git commit -m "Manual deploy: ${{ github.event.inputs.message }}" || exit 0
+          git push origin main
           
       - name: Success
         run: |
